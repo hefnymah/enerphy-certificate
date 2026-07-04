@@ -14,6 +14,7 @@
 \usepackage{helvet}           % Helvetica-like sans (matches the SGS look)
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{microtype}
+\usepackage{graphicx}         % \resizebox for the full-height wordmark
 \usetikzlibrary{calc}
 \pagestyle{empty}
 
@@ -131,10 +132,12 @@
   \fill[band] (current page.south west) rectangle
         ($(current page.north west)+(\barwidth,0)$);
 
-  % ---- vertical "CERTIFICATE" wordmark: bold, tight, reading bottom-up
-  \node[rotate=90, text=barword, anchor=center,
-        font=\fontsize{86}{86}\selectfont\bfseries]
-       at ($(current page.west)+({\barwidth/2},0)$) {CERTIFICATE};
+  % ---- vertical "CERTIFICATE" wordmark: bold, full page height ------
+  %  \resizebox stretches the word to the paper height (its width before
+  %  the 90-degree rotation), so it spans the whole sheet bottom-to-top.
+  \node[rotate=90, text=barword, anchor=center] at
+       ($(current page.west)+({\barwidth/2},0)$)
+       {\resizebox{\paperheight}{!}{\bfseries CERTIFICATE}};
 
   % ---- guilloché "banknote" engraving — FULL-PAGE background ----------
   %  Layered mathematical curves (pinwheel rays + woven petal rings +
