@@ -87,6 +87,11 @@
 \newcommand{\badgeMid}{TRAINING\\ PROVIDER}
 \newcommand{\badgeNo}{0005}
 
+% verification strip (bottom)
+\newcommand{\verifyURL}{verify.enerphy.com}
+\newcommand{\verifyHead}{Authentic electronic certificate}
+\newcommand{\verifyLine}{Scan the code or verify authenticity at \textbf{\verifyURL}}
+
 % fine print
 \newcommand{\finePrint}{%
   This document is issued by the Company subject to its General Conditions of certification
@@ -261,20 +266,62 @@
   \end{scope}
   \node[text=ink,font=\footnotesize\bfseries] at ($(current page.south east)+(-3.15,5.5)$) {\badgeNo};
 
-  % ---- decorative flying-bird row (auto-spaced from bar edge to x=16.5)
-  \foreach \i/\col/\sc/\rot/\dy in {%
-      0/bA/1.25/-4/0.13, 1/bB/1.30/3/0.00, 2/bC/1.30/-6/0.18,
-      3/bD/1.35/4/0.00, 4/bE/1.35/-3/0.22, 5/bF/1.40/5/0.00,
-      6/bG/1.45/-5/0.22, 7/bH/1.40/2/0.00}{%
-    \pgfmathsetmacro{\bx}{(\barwidth+0.8) + \i*((16.5-(\barwidth+0.8))/7)}%
-    \drawbird{($(current page.south west)+(\bx,{4.02+\dy})$)}{\sc}{\rot}{\col}
-  }
+  % ==== FOOTER: guilloché security strip + verification strip =========
+  \pgfmathsetmacro{\stripL}{\barwidth+0.4}      % left x of the strips
+  \def\stripR{19.8}                              % right x of the strips
 
-  % ---- fine print (bottom, centered) ---------------------------------
-  \node[anchor=north, text width=10.5cm, align=center, text=softink, font=\tiny]
-       at ($(current page.south)+(0,2.35)$) {\finePrint};
-  \node[anchor=south, text=softink, font=\scriptsize] at ($(current page.south)+(0,0.55)$)
-       {Page 1 of 1};
+  % ---- (1) thin woven guilloché security strip ----------------------
+  \begin{scope}
+    \pgfmathsetmacro{\stripW}{\stripR-\stripL}
+    \begin{scope}[shift={($(current page.south west)+(\stripL,4.35)$)}]
+      \clip (0,-0.30) rectangle (\stripW,0.30);
+      % two interwoven wave families -> braided banknote strip
+      \foreach \yo in {-0.20,-0.14,...,0.20}{
+        \draw[guilB,line width=0.11pt,opacity=0.65]
+          plot[domain=0:\stripW,samples=260,variable=\x]
+            ({\x},{\yo+0.135*sin(150*\x)});
+        \draw[guilA,line width=0.11pt,opacity=0.65]
+          plot[domain=0:\stripW,samples=260,variable=\x]
+            ({\x},{\yo-0.135*sin(150*\x)});
+      }
+    \end{scope}
+    % hairline rules framing the strip
+    \draw[guilB,line width=0.25pt,opacity=0.55]
+      ($(current page.south west)+(\stripL,4.66)$) -- ($(current page.south west)+(\stripR,4.66)$);
+    \draw[guilB,line width=0.25pt,opacity=0.55]
+      ($(current page.south west)+(\stripL,4.04)$) -- ($(current page.south west)+(\stripR,4.04)$);
+  \end{scope}
+
+  % ---- (2) verification strip: QR block + authenticity text ---------
+  % stylised QR code (deterministic pattern)
+  \begin{scope}[shift={($(current page.south west)+(\stripL+0.15,2.75)$)}]
+    \def\m{0.105}
+    \foreach \qi in {0,...,10}{
+      \foreach \qj in {0,...,10}{
+        \pgfmathtruncatemacro{\bit}{mod(\qi*\qi+\qj*3+\qi*\qj*2+7,5)<2 ? 1 : 0}%
+        \ifnum\bit=1 \fill[ink] (\qi*\m,\qj*\m) rectangle (\qi*\m+\m,\qj*\m+\m);\fi
+      }
+    }
+    % three finder patterns (corners)
+    \foreach \fx/\fy in {0/8, 0/0, 8/8}{
+      \fill[ink]   (\fx*\m,\fy*\m) rectangle (\fx*\m+3*\m,\fy*\m+3*\m);
+      \fill[bg]    (\fx*\m+0.6*\m,\fy*\m+0.6*\m) rectangle (\fx*\m+2.4*\m,\fy*\m+2.4*\m);
+      \fill[ink]   (\fx*\m+1.1*\m,\fy*\m+1.1*\m) rectangle (\fx*\m+1.9*\m,\fy*\m+1.9*\m);
+    }
+  \end{scope}
+  % authenticity text next to the QR
+  \node[anchor=west, align=left, text=ink] at ($(current page.south west)+(\stripL+1.65,3.35)$)
+       {\footnotesize\bfseries \verifyHead};
+  \node[anchor=west, align=left, text=softink] at ($(current page.south west)+(\stripL+1.65,2.92)$)
+       {\scriptsize \verifyLine};
+  \node[anchor=west, align=left, text=softink] at ($(current page.south west)+(\stripL+1.65,2.55)$)
+       {\scriptsize Certificate No.\ \textbf{\certNo}};
+
+  % ---- fine print (centered on the content area, clears the bar) -----
+  \node[anchor=north, text width=13.5cm, align=center, text=softink, font=\tiny]
+       at ($(current page.south west)+(13.1,1.9)$) {\finePrint};
+  \node[anchor=south west, text=softink, font=\scriptsize]
+       at ($(current page.south west)+(\stripL,0.35)$) {Page 1 of 1};
 
 \end{tikzpicture}
 \end{document}
