@@ -46,6 +46,11 @@
 % =====================================================================
 %  CONTENT  —  edit these for each certificate
 % =====================================================================
+% Left grey bar width in cm — SINGLE control. The vertical CERTIFICATE
+% wordmark, the main text column and the bird row all derive from this,
+% so changing this one number re-flows the whole left side.
+\def\barwidth{5.2}
+
 \newcommand{\certNo}{TRN-2026/0428}
 \newcommand{\preLine}{This is to certify that}
 \newcommand{\recipient}{\guillemotleft Global Export Company\guillemotright{} LLC}
@@ -122,14 +127,14 @@
 \begin{tikzpicture}[remember picture,overlay]
   % ---- page background ------------------------------------------------
   \fill[bg] (current page.south west) rectangle (current page.north east);
-  % wider darker band on the far left
+  % wider darker band on the far left (width = \barwidth)
   \fill[band] (current page.south west) rectangle
-        ($(current page.north west)+(5.2,0)$);
+        ($(current page.north west)+(\barwidth,0)$);
 
-  % ---- vertical "CERTIFICATE" wordmark running the full height --------
+  % ---- vertical "CERTIFICATE" wordmark, centred in the bar ------------
   \foreach \ch [count=\i from 0] in {C,E,R,T,I,F,I,C,A,T,E}{%
      \node[rotate=-90, text=barword, font=\fontsize{56}{56}\selectfont\bfseries]
-          at ($(current page.north west)+(2.6,-1.9-\i*2.59)$) {\ch};
+          at ($(current page.north west)+({\barwidth/2},-1.9-\i*2.59)$) {\ch};
   }
 
   % ---- guilloché "banknote" engraving — FULL-PAGE background ----------
@@ -195,8 +200,10 @@
   % =====================================================================
   %  MAIN TEXT COLUMN
   % =====================================================================
-  \node[anchor=north west, text width=10.9cm, align=left] at
-       ($(current page.north west)+(5.6,-2.55)$)
+  % text column starts just right of the bar; width fills up to x=16.5
+  \pgfmathsetlengthmacro{\certtextwidth}{(16.1-\barwidth)*1cm}%
+  \node[anchor=north west, text width=\certtextwidth, align=left] at
+       ($(current page.north west)+({\barwidth+0.4},-2.55)$)
   {%
     \hyphenpenalty=10000\exhyphenpenalty=10000\relax
     \color{softink}\footnotesize Certificate \certNo\par
@@ -252,15 +259,14 @@
   \end{scope}
   \node[text=ink,font=\footnotesize\bfseries] at ($(current page.south east)+(-3.15,5.5)$) {\badgeNo};
 
-  % ---- decorative flying-bird row (shifted right to clear the bar) ---
-  \drawbird{($(current page.south west)+(6.0,4.15)$)}{1.25}{-4}{bA}
-  \drawbird{($(current page.south west)+(7.5,4.02)$)}{1.30}{3}{bB}
-  \drawbird{($(current page.south west)+(9.0,4.20)$)}{1.30}{-6}{bC}
-  \drawbird{($(current page.south west)+(10.5,4.02)$)}{1.35}{4}{bD}
-  \drawbird{($(current page.south west)+(12.0,4.24)$)}{1.35}{-3}{bE}
-  \drawbird{($(current page.south west)+(13.5,4.02)$)}{1.40}{5}{bF}
-  \drawbird{($(current page.south west)+(15.0,4.24)$)}{1.45}{-5}{bG}
-  \drawbird{($(current page.south west)+(16.5,4.02)$)}{1.40}{2}{bH}
+  % ---- decorative flying-bird row (auto-spaced from bar edge to x=16.5)
+  \foreach \i/\col/\sc/\rot/\dy in {%
+      0/bA/1.25/-4/0.13, 1/bB/1.30/3/0.00, 2/bC/1.30/-6/0.18,
+      3/bD/1.35/4/0.00, 4/bE/1.35/-3/0.22, 5/bF/1.40/5/0.00,
+      6/bG/1.45/-5/0.22, 7/bH/1.40/2/0.00}{%
+    \pgfmathsetmacro{\bx}{(\barwidth+0.8) + \i*((16.5-(\barwidth+0.8))/7)}%
+    \drawbird{($(current page.south west)+(\bx,{4.02+\dy})$)}{\sc}{\rot}{\col}
+  }
 
   % ---- fine print (bottom, centered) ---------------------------------
   \node[anchor=north, text width=10.5cm, align=center, text=softink, font=\tiny]
