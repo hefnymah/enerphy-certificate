@@ -27,6 +27,7 @@
 \definecolor{logogrey}{RGB}{176,180,184}   % big logo mark
 \definecolor{accent}{RGB}{228,118,32}       % orange accent
 \definecolor{watermk}{RGB}{223,225,227}     % faint watermark bird
+\definecolor{barword}{RGB}{196,199,203}     % vertical CERTIFICATE wordmark in the bar
 
 % Colours for the decorative bird row (left -> right)
 \definecolor{bA}{RGB}{170,174,178}
@@ -117,9 +118,15 @@
 \begin{tikzpicture}[remember picture,overlay]
   % ---- page background ------------------------------------------------
   \fill[bg] (current page.south west) rectangle (current page.north east);
-  % subtle darker band on the far left
+  % wider darker band on the far left
   \fill[band] (current page.south west) rectangle
-        ($(current page.north west)+(1.3,0)$);
+        ($(current page.north west)+(2.8,0)$);
+
+  % ---- vertical "CERTIFICATE" wordmark running the full height --------
+  \foreach \ch [count=\i from 0] in {C,E,R,T,I,F,I,C,A,T,E}{%
+     \node[rotate=-90, text=barword, font=\fontsize{48}{48}\selectfont\bfseries]
+          at ($(current page.north west)+(1.4,-1.9-\i*2.59)$) {\ch};
+  }
 
   % ---- large faint watermark bird ------------------------------------
   \begin{scope}
@@ -202,20 +209,15 @@
   \end{scope}
   \node[text=ink,font=\footnotesize\bfseries] at ($(current page.south east)+(-3.15,5.5)$) {\badgeNo};
 
-  % ---- decorative flying-bird row ------------------------------------
-  \drawbird{($(current page.south west)+(3.0,4.15)$)}{1.30}{-4}{bA}
-  \drawbird{($(current page.south west)+(5.0,4.02)$)}{1.35}{3}{bB}
-  \drawbird{($(current page.south west)+(7.0,4.20)$)}{1.35}{-6}{bC}
-  \drawbird{($(current page.south west)+(9.0,4.02)$)}{1.40}{4}{bD}
-  \drawbird{($(current page.south west)+(11.0,4.24)$)}{1.40}{-3}{bE}
-  \drawbird{($(current page.south west)+(13.0,4.02)$)}{1.45}{5}{bF}
-  \drawbird{($(current page.south west)+(15.0,4.24)$)}{1.50}{-5}{bG}
-  \drawbird{($(current page.south west)+(17.0,4.02)$)}{1.45}{2}{bH}
-
-  % ---- provider mark bottom-left + globe -----------------------------
-  \node[anchor=west, text=logogrey] at ($(current page.south west)+(0.55,4.05)$)
-       {\fontsize{26}{26}\selectfont\bfseries \providerMark};
-  \shade[ball color=blue!45] ($(current page.south west)+(1.55,3.05)$) circle (0.42);
+  % ---- decorative flying-bird row (shifted right to clear the bar) ---
+  \drawbird{($(current page.south west)+(4.6,4.15)$)}{1.25}{-4}{bA}
+  \drawbird{($(current page.south west)+(6.35,4.02)$)}{1.30}{3}{bB}
+  \drawbird{($(current page.south west)+(8.1,4.20)$)}{1.30}{-6}{bC}
+  \drawbird{($(current page.south west)+(9.85,4.02)$)}{1.35}{4}{bD}
+  \drawbird{($(current page.south west)+(11.6,4.24)$)}{1.35}{-3}{bE}
+  \drawbird{($(current page.south west)+(13.35,4.02)$)}{1.40}{5}{bF}
+  \drawbird{($(current page.south west)+(15.1,4.24)$)}{1.45}{-5}{bG}
+  \drawbird{($(current page.south west)+(16.85,4.02)$)}{1.40}{2}{bH}
 
   % ---- fine print (bottom, centered) ---------------------------------
   \node[anchor=north, text width=10.5cm, align=center, text=softink, font=\tiny]
