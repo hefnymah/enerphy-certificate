@@ -195,14 +195,13 @@
   \draw[accent,line width=1.3pt]
         ($(current page.north east)+(-3.9,-2.15)$) -- ($(current page.north east)+(-1.1,-2.15)$);
 
-  % ---- circular "system certification" style badge (top-right area) ---
-  \begin{scope}[shift={($(current page.north east)+(-3.05,-5.2)$)}]
-     \draw[logogrey,line width=6pt] (-1.15,0) arc (180:0:1.15);
-     \node[text=softink,font=\scriptsize\bfseries] at (0,1.35) {SYSTEM CERTIFIED};
-     \fill[accent] (0,0) circle (0.72);
-     \draw[white,line width=3pt,line cap=round] (-0.34,0.02) -- (-0.08,-0.28) -- (0.42,0.34);
-     \node[text=softink,font=\footnotesize\bfseries] at (0,-1.05) {\logoMark};
-  \end{scope}
+  % ---- certification logos stacked down the right column -------------
+  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-5.9)$)
+       {\includegraphics[width=2.9cm]{pngtree-iso-9001-certified-company-logo-badge-vector-png-image_16209165.png}};
+  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-9.4)$)
+       {\includegraphics[width=2.9cm]{iso-9001-2000-sgs-logo-black-and-white.png}};
+  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-12.7)$)
+       {\includegraphics[width=3.3cm]{ISO-9001.jpg}};
 
   % =====================================================================
   %  MAIN TEXT COLUMN
@@ -254,20 +253,6 @@
        at ($(current page.north west)+(10.0,-17.3)$)
        {\includegraphics[width=3.1cm]{enerphy-stamp+.png}};
 
-  % ---- accreditation badge (bottom-right box) -------------------------
-  \begin{scope}[shift={($(current page.south east)+(-3.15,7.4)$)}]
-     \draw[ink,line width=1pt] (-1.7,-1.55) rectangle (1.7,1.55);
-     % little crown
-     \draw[ink,line width=0.8pt]
-        (-0.55,0.95) -- (-0.65,1.28) -- (-0.30,1.06) -- (0.0,1.30)
-        -- (0.30,1.06) -- (0.65,1.28) -- (0.55,0.95) -- cycle;
-     \fill[ink] (-0.55,0.95) circle (0.05) (0.55,0.95) circle (0.05) (0,1.06) circle (0.05);
-     % tick
-     \draw[ink,line width=2pt,line cap=round] (-0.35,0.55) -- (-0.05,0.15) -- (0.55,0.85);
-     \node[text=ink,font=\large\bfseries] at (0,-0.35) {\badgeTop};
-     \node[text=ink,font=\scriptsize\bfseries,align=center] at (0,-0.95) {\badgeMid};
-  \end{scope}
-  \node[text=ink,font=\footnotesize\bfseries] at ($(current page.south east)+(-3.15,5.5)$) {\badgeNo};
 
   % ==== FOOTER: guilloché security strip + verification strip =========
   \pgfmathsetmacro{\stripL}{\barwidth+0.4}      % left x of the strips
