@@ -236,20 +236,23 @@
     {\color{ink}\small \validBlock\par}
   };
 
-  % ---- signature block ------------------------------------------------
+  % ---- signature block & official stamp -------------------------------
   \node[anchor=north east, text width=8cm, align=right, text=softink, font=\footnotesize]
-       at ($(current page.north west)+(15.3,-16.9)$) {\signRole};
-  % hand-drawn-ish signature stroke
-  \begin{scope}[shift={($(current page.north west)+(11.6,-17.9)$)}]
-     \draw[ink,line width=1pt]
-        (0,0) .. controls (0.3,0.7) and (0.5,-0.6) .. (0.7,0.2)
-              .. controls (0.85,0.7) and (1.0,-0.5) .. (1.15,0.15)
-              .. controls (1.4,0.9) and (1.7,-0.3) .. (2.1,0.35);
-  \end{scope}
+       at ($(current page.north west)+(15.3,-16.2)$) {\signRole};
+  % scanned signature
+  \node[anchor=center, inner sep=0] at ($(current page.north west)+(13.3,-17.6)$)
+       {\includegraphics[height=2.0cm]{signature.pdf}};
+  % signature line + name + issuer
+  \draw[softink,line width=0.4pt]
+       ($(current page.north west)+(11.2,-18.75)$) -- ($(current page.north west)+(15.3,-18.75)$);
   \node[anchor=north east, text width=8cm, align=right, text=softink, font=\footnotesize]
-       at ($(current page.north west)+(15.3,-19.0)$) {\signName};
+       at ($(current page.north west)+(15.3,-18.95)$) {\signName};
   \node[anchor=north east, text width=9cm, align=right, text=softink, font=\scriptsize]
-       at ($(current page.north west)+(15.3,-19.7)$) {\issuerBlock};
+       at ($(current page.north west)+(15.3,-19.65)$) {\issuerBlock};
+  % official round stamp (semi-transparent ink), overlapping the signature
+  \node[anchor=center, inner sep=0, opacity=0.9, rotate=-8]
+       at ($(current page.north west)+(10.0,-17.3)$)
+       {\includegraphics[width=3.1cm]{enerphy-stamp+.png}};
 
   % ---- accreditation badge (bottom-right box) -------------------------
   \begin{scope}[shift={($(current page.south east)+(-3.15,7.4)$)}]
