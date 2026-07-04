@@ -124,12 +124,12 @@
   \fill[bg] (current page.south west) rectangle (current page.north east);
   % wider darker band on the far left
   \fill[band] (current page.south west) rectangle
-        ($(current page.north west)+(2.8,0)$);
+        ($(current page.north west)+(5.2,0)$);
 
   % ---- vertical "CERTIFICATE" wordmark running the full height --------
   \foreach \ch [count=\i from 0] in {C,E,R,T,I,F,I,C,A,T,E}{%
-     \node[rotate=-90, text=barword, font=\fontsize{48}{48}\selectfont\bfseries]
-          at ($(current page.north west)+(1.4,-1.9-\i*2.59)$) {\ch};
+     \node[rotate=-90, text=barword, font=\fontsize{56}{56}\selectfont\bfseries]
+          at ($(current page.north west)+(2.6,-1.9-\i*2.59)$) {\ch};
   }
 
   % ---- guilloché "banknote" engraving — FULL-PAGE background ----------
@@ -195,14 +195,15 @@
   % =====================================================================
   %  MAIN TEXT COLUMN
   % =====================================================================
-  \node[anchor=north west, text width=12.2cm, align=left] at
-       ($(current page.north west)+(3.1,-2.55)$)
+  \node[anchor=north west, text width=10.9cm, align=left] at
+       ($(current page.north west)+(5.6,-2.55)$)
   {%
+    \hyphenpenalty=10000\exhyphenpenalty=10000\relax
     \color{softink}\footnotesize Certificate \certNo\par
     \vspace{1.1em}
     \color{softink}\footnotesize \preLine\par
     \vspace{0.5em}
-    {\color{ink}\fontsize{22}{25}\selectfont\bfseries \recipient\par}
+    {\color{ink}\fontsize{20}{24}\selectfont\bfseries \recipient\par}
     \vspace{0.55em}
     {\color{ink}\small \recipientAddr\par}
     \vspace{0.5em}
@@ -252,14 +253,14 @@
   \node[text=ink,font=\footnotesize\bfseries] at ($(current page.south east)+(-3.15,5.5)$) {\badgeNo};
 
   % ---- decorative flying-bird row (shifted right to clear the bar) ---
-  \drawbird{($(current page.south west)+(4.6,4.15)$)}{1.25}{-4}{bA}
-  \drawbird{($(current page.south west)+(6.35,4.02)$)}{1.30}{3}{bB}
-  \drawbird{($(current page.south west)+(8.1,4.20)$)}{1.30}{-6}{bC}
-  \drawbird{($(current page.south west)+(9.85,4.02)$)}{1.35}{4}{bD}
-  \drawbird{($(current page.south west)+(11.6,4.24)$)}{1.35}{-3}{bE}
-  \drawbird{($(current page.south west)+(13.35,4.02)$)}{1.40}{5}{bF}
-  \drawbird{($(current page.south west)+(15.1,4.24)$)}{1.45}{-5}{bG}
-  \drawbird{($(current page.south west)+(16.85,4.02)$)}{1.40}{2}{bH}
+  \drawbird{($(current page.south west)+(6.0,4.15)$)}{1.25}{-4}{bA}
+  \drawbird{($(current page.south west)+(7.5,4.02)$)}{1.30}{3}{bB}
+  \drawbird{($(current page.south west)+(9.0,4.20)$)}{1.30}{-6}{bC}
+  \drawbird{($(current page.south west)+(10.5,4.02)$)}{1.35}{4}{bD}
+  \drawbird{($(current page.south west)+(12.0,4.24)$)}{1.35}{-3}{bE}
+  \drawbird{($(current page.south west)+(13.5,4.02)$)}{1.40}{5}{bF}
+  \drawbird{($(current page.south west)+(15.0,4.24)$)}{1.45}{-5}{bG}
+  \drawbird{($(current page.south west)+(16.5,4.02)$)}{1.40}{2}{bH}
 
   % ---- fine print (bottom, centered) ---------------------------------
   \node[anchor=north, text width=10.5cm, align=center, text=softink, font=\tiny]
