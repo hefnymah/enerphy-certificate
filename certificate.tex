@@ -1,0 +1,227 @@
+% =====================================================================
+%  Professional Certificate  —  "SGS-style" layout, fully self-contained
+%  Compile with:  tectonic certificate.tex   (or xelatex / pdflatex)
+%
+%  Everything you normally change lives in the CONTENT block below.
+%  The graphics (watermark, logo mark, badge, flying birds) are drawn
+%  with TikZ, so no external image files are required.
+% =====================================================================
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=0pt]{geometry}
+\usepackage{tikz}
+\usepackage[T1]{fontenc}
+\usepackage{helvet}           % Helvetica-like sans (matches the SGS look)
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{microtype}
+\usetikzlibrary{calc}
+\pagestyle{empty}
+
+% ---------------------------------------------------------------------
+%  COLOUR PALETTE
+% ---------------------------------------------------------------------
+\definecolor{bg}{RGB}{237,238,239}        % page background light grey
+\definecolor{band}{RGB}{225,226,228}       % darker left band
+\definecolor{ink}{RGB}{45,48,52}           % main text
+\definecolor{softink}{RGB}{95,100,106}     % secondary text
+\definecolor{logogrey}{RGB}{176,180,184}   % big logo mark
+\definecolor{accent}{RGB}{228,118,32}       % orange accent
+\definecolor{watermk}{RGB}{223,225,227}     % faint watermark bird
+
+% Colours for the decorative bird row (left -> right)
+\definecolor{bA}{RGB}{170,174,178}
+\definecolor{bB}{RGB}{150,120,175}
+\definecolor{bC}{RGB}{206,96,146}
+\definecolor{bD}{RGB}{224,86,74}
+\definecolor{bE}{RGB}{233,146,52}
+\definecolor{bF}{RGB}{120,140,160}
+\definecolor{bG}{RGB}{92,132,196}
+\definecolor{bH}{RGB}{150,154,158}
+
+% =====================================================================
+%  CONTENT  —  edit these for each certificate
+% =====================================================================
+\newcommand{\certNo}{TRN-2026/0428}
+\newcommand{\preLine}{This is to certify that}
+\newcommand{\recipient}{\guillemotleft Global Export Company\guillemotright{} LLC}
+\newcommand{\recipientAddr}{Yunusabad district, st.\ Bogishamol 160,\\ Tashkent, 100053, Republic of Uzbekistan}
+\newcommand{\assessLine}{has successfully attended and completed the training programme}
+\newcommand{\courseTitle}{Food Safety Management\\ FSSC 22000 Awareness}
+\newcommand{\schemeLine}{Training programme covering the following elements:\\ ISO 22000:2018, ISO/TS 22002-1:2009 and additional FSSC 22000 requirements (version 5).}
+\newcommand{\scopeCaption}{This certificate is issued for the scope of:}
+\newcommand{\scopeText}{Bean Processing (cleaning, sorting, calibration, packaging)}
+\newcommand{\categoryText}{Food Category: CII -- Processing of perishable plant products}
+
+% validity / dates block
+\newcommand{\validBlock}{%
+  This certificate is valid from 28 April 2026 until 27 April 2029\\
+  and remains valid subject to satisfactory annual review\\
+  Date of training completion 28 April 2026\\
+  Issue 1. Certified since 28 April 2026}
+
+% signature / issuer
+\newcommand{\signRole}{Authorised by}
+\newcommand{\signName}{Authorised Accredited Office Manager}
+\newcommand{\issuerBlock}{%
+  Your Training Institute Ltd\\
+  Rossmore Business Park \; Ellesmere Port \; Cheshire \; CH65 3EN \; UK\\
+  t +44 (0)151 000-0000 \quad www.your-institute.com}
+
+% big logo mark (top-right) and provider mark (bottom-left)
+\newcommand{\logoMark}{YTI}          % <- your acronym / replace with \includegraphics
+\newcommand{\providerMark}{YTI}
+
+% accreditation-style badge (bottom-right)
+\newcommand{\badgeTop}{ACCREDITED}
+\newcommand{\badgeMid}{TRAINING\\ PROVIDER}
+\newcommand{\badgeNo}{0005}
+
+% fine print
+\newcommand{\finePrint}{%
+  This document is issued by the Company subject to its General Conditions of certification
+  services. This certificate remains the property of the issuing body and must be returned on
+  request. The authenticity of this document may be verified with the issuing office. Any
+  unauthorised alteration, forgery or falsification of the content or appearance of this document
+  is unlawful and offenders may be prosecuted to the fullest extent of the law.}
+
+% =====================================================================
+%  BIRD SILHOUETTE  (flying, wings spread) — used for watermark & row
+%  Usage: \drawbird{(coord)}{scale}{rotation}{color}
+% =====================================================================
+\newcommand{\drawbird}[4]{%
+  \begin{scope}[shift={#1},scale=#2,rotate=#3]
+    \fill[#4]
+      % --- beak & head (pointing left) ---
+      (-1.58,0.05)
+        .. controls (-1.38,0.10) and (-1.22,0.10) .. (-1.06,0.08)
+      % --- neck rising to the shoulder ---
+        .. controls (-0.80,0.10) and (-0.58,0.20) .. (-0.40,0.36)
+      % --- leading edge of the raised wing, up to the tip ---
+        .. controls (-0.28,0.58) and (-0.10,0.88) .. (0.12,1.05)
+      % --- wing tip, trailing edge coming back down ---
+        .. controls (0.18,0.86) and (0.17,0.60) .. (0.15,0.40)
+      % --- back edge sweeping toward the tail ---
+        .. controls (0.22,0.30) and (0.38,0.22) .. (0.58,0.16)
+      % --- tail & trailing legs (to the right) ---
+        .. controls (0.90,0.11) and (1.20,0.05) .. (1.52,-0.03)
+        .. controls (1.18,-0.03) and (0.82,-0.01) .. (0.52,0.01)
+      % --- belly / underside back to the neck ---
+        .. controls (0.24,0.01) and (-0.02,-0.01) .. (-0.28,-0.03)
+        .. controls (-0.58,-0.05) and (-0.88,-0.01) .. (-1.08,0.01)
+        .. controls (-1.24,0.01) and (-1.42,0.02) .. (-1.58,0.05)
+      -- cycle;
+  \end{scope}}
+
+% =====================================================================
+\begin{document}
+\begin{tikzpicture}[remember picture,overlay]
+  % ---- page background ------------------------------------------------
+  \fill[bg] (current page.south west) rectangle (current page.north east);
+  % subtle darker band on the far left
+  \fill[band] (current page.south west) rectangle
+        ($(current page.north west)+(1.3,0)$);
+
+  % ---- large faint watermark bird ------------------------------------
+  \begin{scope}
+    \clip (current page.south west) rectangle (current page.north east);
+    \drawbird{($(current page.north)+(1.6,-6.6)$)}{8.2}{-8}{watermk}
+    \drawbird{($(current page.north west)+(6.5,-12.5)$)}{4.6}{7}{watermk}
+  \end{scope}
+
+  % ---- big logo mark (top right) -------------------------------------
+  \node[anchor=north east, text=logogrey] at ($(current page.north east)+(-1.1,-1.15)$)
+        {\fontsize{58}{58}\selectfont\bfseries \logoMark};
+  \draw[accent,line width=1.3pt]
+        ($(current page.north east)+(-3.9,-2.15)$) -- ($(current page.north east)+(-1.1,-2.15)$);
+
+  % ---- circular "system certification" style badge (top-right area) ---
+  \begin{scope}[shift={($(current page.north east)+(-3.05,-5.2)$)}]
+     \draw[logogrey,line width=6pt] (-1.15,0) arc (180:0:1.15);
+     \node[text=softink,font=\scriptsize\bfseries] at (0,1.35) {SYSTEM CERTIFIED};
+     \fill[accent] (0,0) circle (0.72);
+     \draw[white,line width=3pt,line cap=round] (-0.34,0.02) -- (-0.08,-0.28) -- (0.42,0.34);
+     \node[text=softink,font=\footnotesize\bfseries] at (0,-1.05) {\logoMark};
+  \end{scope}
+
+  % =====================================================================
+  %  MAIN TEXT COLUMN
+  % =====================================================================
+  \node[anchor=north west, text width=12.2cm, align=left] at
+       ($(current page.north west)+(3.1,-2.55)$)
+  {%
+    \color{softink}\footnotesize Certificate \certNo\par
+    \vspace{1.1em}
+    \color{softink}\footnotesize \preLine\par
+    \vspace{0.5em}
+    {\color{ink}\fontsize{22}{25}\selectfont\bfseries \recipient\par}
+    \vspace{0.55em}
+    {\color{ink}\small \recipientAddr\par}
+    \vspace{0.5em}
+    \color{softink}\footnotesize \assessLine\par
+    \vspace{0.9em}
+    {\color{ink}\fontsize{18}{22}\selectfont\bfseries \courseTitle\par}
+    \vspace{0.9em}
+    {\color{softink}\footnotesize \schemeLine\par}
+    \vspace{1.4em}
+    \color{softink}\footnotesize \scopeCaption\par
+    \vspace{0.7em}
+    {\color{ink}\small\bfseries \scopeText\par}
+    \vspace{0.9em}
+    {\color{ink}\small\bfseries \categoryText\par}
+    \vspace{1.6em}
+    {\color{ink}\small \validBlock\par}
+  };
+
+  % ---- signature block ------------------------------------------------
+  \node[anchor=north east, text width=8cm, align=right, text=softink, font=\footnotesize]
+       at ($(current page.north west)+(15.3,-16.9)$) {\signRole};
+  % hand-drawn-ish signature stroke
+  \begin{scope}[shift={($(current page.north west)+(11.6,-17.9)$)}]
+     \draw[ink,line width=1pt]
+        (0,0) .. controls (0.3,0.7) and (0.5,-0.6) .. (0.7,0.2)
+              .. controls (0.85,0.7) and (1.0,-0.5) .. (1.15,0.15)
+              .. controls (1.4,0.9) and (1.7,-0.3) .. (2.1,0.35);
+  \end{scope}
+  \node[anchor=north east, text width=8cm, align=right, text=softink, font=\footnotesize]
+       at ($(current page.north west)+(15.3,-19.0)$) {\signName};
+  \node[anchor=north east, text width=9cm, align=right, text=softink, font=\scriptsize]
+       at ($(current page.north west)+(15.3,-19.7)$) {\issuerBlock};
+
+  % ---- accreditation badge (bottom-right box) -------------------------
+  \begin{scope}[shift={($(current page.south east)+(-3.15,7.4)$)}]
+     \draw[ink,line width=1pt] (-1.7,-1.55) rectangle (1.7,1.55);
+     % little crown
+     \draw[ink,line width=0.8pt]
+        (-0.55,0.95) -- (-0.65,1.28) -- (-0.30,1.06) -- (0.0,1.30)
+        -- (0.30,1.06) -- (0.65,1.28) -- (0.55,0.95) -- cycle;
+     \fill[ink] (-0.55,0.95) circle (0.05) (0.55,0.95) circle (0.05) (0,1.06) circle (0.05);
+     % tick
+     \draw[ink,line width=2pt,line cap=round] (-0.35,0.55) -- (-0.05,0.15) -- (0.55,0.85);
+     \node[text=ink,font=\large\bfseries] at (0,-0.35) {\badgeTop};
+     \node[text=ink,font=\scriptsize\bfseries,align=center] at (0,-0.95) {\badgeMid};
+  \end{scope}
+  \node[text=ink,font=\footnotesize\bfseries] at ($(current page.south east)+(-3.15,5.5)$) {\badgeNo};
+
+  % ---- decorative flying-bird row ------------------------------------
+  \drawbird{($(current page.south west)+(3.0,4.15)$)}{1.30}{-4}{bA}
+  \drawbird{($(current page.south west)+(5.0,4.02)$)}{1.35}{3}{bB}
+  \drawbird{($(current page.south west)+(7.0,4.20)$)}{1.35}{-6}{bC}
+  \drawbird{($(current page.south west)+(9.0,4.02)$)}{1.40}{4}{bD}
+  \drawbird{($(current page.south west)+(11.0,4.24)$)}{1.40}{-3}{bE}
+  \drawbird{($(current page.south west)+(13.0,4.02)$)}{1.45}{5}{bF}
+  \drawbird{($(current page.south west)+(15.0,4.24)$)}{1.50}{-5}{bG}
+  \drawbird{($(current page.south west)+(17.0,4.02)$)}{1.45}{2}{bH}
+
+  % ---- provider mark bottom-left + globe -----------------------------
+  \node[anchor=west, text=logogrey] at ($(current page.south west)+(0.55,4.05)$)
+       {\fontsize{26}{26}\selectfont\bfseries \providerMark};
+  \shade[ball color=blue!45] ($(current page.south west)+(1.55,3.05)$) circle (0.42);
+
+  % ---- fine print (bottom, centered) ---------------------------------
+  \node[anchor=north, text width=10.5cm, align=center, text=softink, font=\tiny]
+       at ($(current page.south)+(0,2.35)$) {\finePrint};
+  \node[anchor=south, text=softink, font=\scriptsize] at ($(current page.south)+(0,0.55)$)
+       {Page 1 of 1};
+
+\end{tikzpicture}
+\end{document}
