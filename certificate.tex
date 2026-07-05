@@ -188,12 +188,12 @@
         ($(current page.north east)+(-3.9,-2.15)$) -- ($(current page.north east)+(-1.1,-2.15)$);%
 }
 
-% Styled heading used inside course-content pages.
+% Styled heading used inside course-content pages (compact).
 \newcommand{\coursesection}[1]{%
-  \vspace{0.55em}%
-  {\color{ink}\large\bfseries #1}\par
-  \vspace{-0.4em}{\color{accent}\rule{2.4cm}{1.3pt}}\par
-  \vspace{0.4em}}
+  \vspace{0.3em}%
+  {\color{ink}\normalsize\bfseries #1}\par
+  \vspace{-0.5em}{\color{accent}\rule{2.2cm}{1.1pt}}\par
+  \vspace{0.25em}}
 
 \newlength{\coursemargin}
 
@@ -343,16 +343,17 @@
 \ifcoursepage
   \clearpage
   \setlength{\coursemargin}{\barwidth cm}\addtolength{\coursemargin}{1.2cm}
-  \newgeometry{left=\coursemargin, right=1.7cm, top=2.7cm, bottom=2.0cm}
+  \newgeometry{left=\coursemargin, right=1.7cm, top=2.9cm, bottom=1.6cm}
+  \setlength{\parindent}{0pt}\setlength{\parskip}{2.5pt}
   \noindent
   {\color{softink}\footnotesize Annex to Certificate No.~\certNo\hfill \recipient\par}
+  \vspace{1pt}
+  {\color{ink}\fontsize{19}{22}\selectfont\bfseries \coursePageTitle\par}
+  \vspace{1pt}{\color{accent}\rule{2.6cm}{1.6pt}}\par
+  \vspace{1pt}
+  {\color{softink}\normalsize \courseTitle\par}
   \vspace{4pt}
-  {\color{ink}\fontsize{22}{25}\selectfont\bfseries \coursePageTitle\par}
-  \vspace{2pt}{\color{accent}\rule{3cm}{2pt}}\par
-  \vspace{4pt}
-  {\color{softink}\large \courseTitle\par}
-  \vspace{8pt}
-  \color{ink}\normalsize
+  \color{ink}\small
   \input{\courseContentFile}%
 \fi
 \end{document}
