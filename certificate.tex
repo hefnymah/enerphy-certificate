@@ -15,6 +15,8 @@
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{microtype}
 \usepackage{graphicx}         % \resizebox for the full-height wordmark
+\usepackage{eso-pic}          % repeat the branded backdrop on course pages
+\usepackage{lastpage}         % dynamic "Page X of N"
 \usetikzlibrary{calc}
 \pagestyle{empty}
 
@@ -92,6 +94,16 @@
 \newcommand{\verifyHead}{Authentic electronic certificate}
 \newcommand{\verifyLine}{Scan the code or verify authenticity at \textbf{\verifyURL}}
 
+% --- page 2: course content (optional, modular) ----------------------
+% Set \coursepagefalse to print the certificate alone (single page).
+% \courseContentFile points at a file in the course-content/ folder; drop
+% in a new syllabus file per course and just change this one line.
+\newif\ifcoursepage
+\coursepagetrue
+\newcommand{\barwordTwo}{COURSE OUTLINE}
+\newcommand{\coursePageTitle}{Course Outline}
+\newcommand{\courseContentFile}{course-content/fssc-22000-awareness}
+
 % fine print
 \newcommand{\finePrint}{%
   This document is issued by the Company subject to its General Conditions of certification
@@ -129,58 +141,40 @@
   \end{scope}}
 
 % =====================================================================
-\begin{document}
-\begin{tikzpicture}[remember picture,overlay]
-  % ---- page background ------------------------------------------------
+%  SHARED PAGE BACKDROP — background, left bar, vertical wordmark,
+%  full-page guilloché engraving and the top-right logo mark.
+%  Call inside a tikzpicture[remember picture,overlay]. #1 = bar wordmark.
+% =====================================================================
+\newcommand{\pagebackdrop}[1]{%
   \fill[bg] (current page.south west) rectangle (current page.north east);
-  % wider darker band on the far left (width = \barwidth)
-  \fill[band] (current page.south west) rectangle
-        ($(current page.north west)+(\barwidth,0)$);
-
-  % ---- vertical "CERTIFICATE" wordmark: bold, full page height ------
-  %  \resizebox stretches the word to the paper height (its width before
-  %  the 90-degree rotation), so it spans the whole sheet bottom-to-top.
+  \fill[band] (current page.south west) rectangle ($(current page.north west)+(\barwidth,0)$);
   \node[rotate=90, text=barword, anchor=center] at
        ($(current page.west)+({\barwidth/2},0)$)
-       {\resizebox{\paperheight}{!}{\bfseries CERTIFICATE}};
-
-  % ---- guilloché "banknote" engraving — FULL-PAGE background ----------
-  %  Layered mathematical curves (pinwheel rays + woven petal rings +
-  %  hypotrochoid rosette) centred on the page and scaled to sweep across
-  %  the whole sheet, kept faint so all text stays readable over it.
+       {\resizebox{\paperheight}{!}{\bfseries #1}};
   \begin{scope}
     \clip (current page.south west) rectangle (current page.north east);
     \begin{scope}[shift={(current page.center)}]
-
-      % --- swirled pinwheel rays reaching the corners -----------------
       \foreach \col/\off in {guilB/0, guilA/3}{
         \foreach \a in {0,6,...,359}{
           \draw[\col,line width=0.1pt,opacity=0.14]
-            (\a+\off:1.4)
-              .. controls (\a+\off+9:6.5) and (\a+\off+16:12.5)
-              .. (\a+\off+24:18.5);
+            (\a+\off:1.4) .. controls (\a+\off+9:6.5) and (\a+\off+16:12.5) .. (\a+\off+24:18.5);
         }
       }
-
-      % --- big outer petal ring ---------------------------------------
       \foreach \ph/\col in {0/guilC, 6/guilB}{
         \draw[\col,line width=0.12pt,opacity=0.19,rotate=\ph]
           plot[domain=0:360,samples=560,smooth cycle,variable=\a]
           ({(10.6+1.5*cos(30*\a))*cos(\a)},{(10.6+1.5*cos(30*\a))*sin(\a)});
       }
-      % --- outer petal ring (interwoven colours) ----------------------
       \foreach \ph/\col in {0/guilB, 7.5/guilA}{
         \draw[\col,line width=0.12pt,opacity=0.22,rotate=\ph]
           plot[domain=0:360,samples=520,smooth cycle,variable=\a]
           ({(7.8+1.3*cos(24*\a))*cos(\a)},{(7.8+1.3*cos(24*\a))*sin(\a)});
       }
-      % --- middle ring ------------------------------------------------
       \foreach \ph/\col in {0/guilA, 10/guilB}{
         \draw[\col,line width=0.12pt,opacity=0.23,rotate=\ph]
           plot[domain=0:360,samples=460,smooth cycle,variable=\a]
           ({(5.2+1.0*cos(18*\a))*cos(\a)},{(5.2+1.0*cos(18*\a))*sin(\a)});
       }
-      % --- inner hypotrochoid star rosette ----------------------------
       \foreach \col/\rot in {guilB/0, guilA/6}{
         \draw[\col,line width=0.12pt,opacity=0.26,rotate=\rot]
           plot[domain=0:1800,samples=720,smooth,variable=\a]
@@ -188,12 +182,39 @@
       }
     \end{scope}
   \end{scope}
-
-  % ---- big logo mark (top right) -------------------------------------
   \node[anchor=north east, text=logogrey] at ($(current page.north east)+(-1.1,-1.15)$)
         {\fontsize{58}{58}\selectfont\bfseries \logoMark};
   \draw[accent,line width=1.3pt]
-        ($(current page.north east)+(-3.9,-2.15)$) -- ($(current page.north east)+(-1.1,-2.15)$);
+        ($(current page.north east)+(-3.9,-2.15)$) -- ($(current page.north east)+(-1.1,-2.15)$);%
+}
+
+% Styled heading used inside course-content pages.
+\newcommand{\coursesection}[1]{%
+  \vspace{0.55em}%
+  {\color{ink}\large\bfseries #1}\par
+  \vspace{-0.4em}{\color{accent}\rule{2.4cm}{1.3pt}}\par
+  \vspace{0.4em}}
+
+\newlength{\coursemargin}
+
+% Repeat the branded backdrop + footer on every page AFTER page 1, so
+% course content that flows onto extra pages stays fully branded and the
+% page numbering ("Page X of N") is always correct.
+\AddToShipoutPictureBG{%
+  \ifnum\value{page}>1
+    \begin{tikzpicture}[remember picture,overlay]
+      \pagebackdrop{\barwordTwo}
+      \node[anchor=south west, text=softink, font=\scriptsize]
+           at ($(current page.south west)+({\barwidth+0.4},0.9)$)
+           {Page \thepage\ of \pageref{LastPage}};
+    \end{tikzpicture}%
+  \fi}
+
+% =====================================================================
+\begin{document}
+\begin{tikzpicture}[remember picture,overlay]
+  % ---- shared backdrop: background, bar, wordmark, guilloché, logo ----
+  \pagebackdrop{CERTIFICATE}
 
   % ---- certification logos stacked down the right column -------------
   \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-5.9)$)
@@ -309,7 +330,29 @@
   \node[anchor=north, text width=13.5cm, align=center, text=softink, font=\tiny]
        at ($(current page.south west)+(13.1,1.9)$) {\finePrint};
   \node[anchor=south west, text=softink, font=\scriptsize]
-       at ($(current page.south west)+(\stripL,0.35)$) {Page 1 of 1};
+       at ($(current page.south west)+(\stripL,0.35)$) {Page 1 of \pageref{LastPage}};
 
 \end{tikzpicture}
+
+% =====================================================================
+%  PAGE 2+ — course content (optional; \coursepagefalse to omit)
+%  Flows the file pointed to by \courseContentFile. The branded backdrop
+%  and page number come from the \AddToShipoutPictureBG hook above, so
+%  long syllabi paginate normally onto further branded pages.
+% =====================================================================
+\ifcoursepage
+  \clearpage
+  \setlength{\coursemargin}{\barwidth cm}\addtolength{\coursemargin}{1.2cm}
+  \newgeometry{left=\coursemargin, right=1.7cm, top=2.7cm, bottom=2.0cm}
+  \noindent
+  {\color{softink}\footnotesize Annex to Certificate No.~\certNo\hfill \recipient\par}
+  \vspace{4pt}
+  {\color{ink}\fontsize{22}{25}\selectfont\bfseries \coursePageTitle\par}
+  \vspace{2pt}{\color{accent}\rule{3cm}{2pt}}\par
+  \vspace{4pt}
+  {\color{softink}\large \courseTitle\par}
+  \vspace{8pt}
+  \color{ink}\normalsize
+  \input{\courseContentFile}%
+\fi
 \end{document}
