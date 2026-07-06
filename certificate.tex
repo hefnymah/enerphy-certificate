@@ -286,37 +286,38 @@
   \pgfmathsetmacro{\stripL}{\barwidth+0.4}      % left x of the strips
   \def\stripR{19.8}                              % right x of the strips
 
-  % ---- (1) thin woven guilloché security strip ----------------------
-  \begin{scope}
-    \pgfmathsetmacro{\stripW}{\stripR-\stripL}
-    \begin{scope}[shift={($(current page.south west)+(\stripL,4.35)$)}]
-      \clip (0,-0.30) rectangle (\stripW,0.30);
-      % two interwoven wave families -> braided banknote strip
-      \foreach \yo in {-0.20,-0.14,...,0.20}{
-        \draw[guilB,line width=0.11pt,opacity=0.65]
-          plot[domain=0:\stripW,samples=260,variable=\x]
-            ({\x},{\yo+0.135*sin(150*\x)});
-        \draw[guilA,line width=0.11pt,opacity=0.65]
-          plot[domain=0:\stripW,samples=260,variable=\x]
-            ({\x},{\yo-0.135*sin(150*\x)});
+  % ---- verification CONTAINER, framed top & bottom with guilloché ----
+  \pgfmathsetmacro{\stripW}{\stripR-\stripL}
+  % top and bottom woven "money" wave bands (edges of the container)
+  \foreach \bandy in {4.35, 1.60}{
+    \begin{scope}[shift={($(current page.south west)+(\stripL,\bandy)$)}]
+      \clip (0,-0.20) rectangle (\stripW,0.20);
+      \foreach \yo in {-0.14,-0.08,...,0.14}{
+        \draw[guilB,line width=0.11pt,opacity=0.6]
+          plot[domain=0:\stripW,samples=240,variable=\x] ({\x},{\yo+0.1*sin(150*\x)});
+        \draw[guilA,line width=0.11pt,opacity=0.6]
+          plot[domain=0:\stripW,samples=240,variable=\x] ({\x},{\yo-0.1*sin(150*\x)});
       }
     \end{scope}
-    % hairline rules framing the strip
-    \draw[guilB,line width=0.25pt,opacity=0.55]
-      ($(current page.south west)+(\stripL,4.66)$) -- ($(current page.south west)+(\stripR,4.66)$);
-    \draw[guilB,line width=0.25pt,opacity=0.55]
-      ($(current page.south west)+(\stripL,4.04)$) -- ($(current page.south west)+(\stripR,4.04)$);
+  }
+  % container frame: outer border + inner edge of each band
+  \begin{scope}[draw=guilB,opacity=0.6]
+    \draw[line width=0.3pt]
+      ($(current page.south west)+(\stripL,1.35)$) rectangle ($(current page.south west)+(\stripR,4.60)$);
+    \draw[line width=0.2pt]
+      ($(current page.south west)+(\stripL,4.13)$) -- ($(current page.south west)+(\stripR,4.13)$);
+    \draw[line width=0.2pt]
+      ($(current page.south west)+(\stripL,1.83)$) -- ($(current page.south west)+(\stripR,1.83)$);
   \end{scope}
 
-  % ---- (2) verification strip: real scannable QR + authenticity text -
-  \node[anchor=south west, inner sep=0] at ($(current page.south west)+(\stripL+0.1,1.95)$)
-       {\qrcode[height=2cm,level=M]{\verifyQR}};
-  % authenticity text next to the QR
-  \node[anchor=west, align=left, text=ink] at ($(current page.south west)+(\stripL+2.55,3.35)$)
+  % ---- QR + authenticity text INSIDE the container ------------------
+  \node[anchor=south west, inner sep=0] at ($(current page.south west)+(\stripL+0.35,1.98)$)
+       {\qrcode[height=1.95cm,level=M]{\verifyQR}};
+  \node[anchor=west, align=left, text=ink] at ($(current page.south west)+(\stripL+2.85,3.35)$)
        {\footnotesize\bfseries \verifyHead};
-  \node[anchor=west, align=left, text=softink] at ($(current page.south west)+(\stripL+2.55,2.9)$)
+  \node[anchor=west, align=left, text=softink] at ($(current page.south west)+(\stripL+2.85,2.90)$)
        {\scriptsize \verifyLine};
-  \node[anchor=west, align=left, text=softink] at ($(current page.south west)+(\stripL+2.55,2.45)$)
+  \node[anchor=west, align=left, text=softink] at ($(current page.south west)+(\stripL+2.85,2.45)$)
        {\scriptsize Certificate No.\ \textbf{\certNo}};
 
   % ---- fine print (left-aligned, ABOVE the guilloché strip) ----------
