@@ -94,7 +94,7 @@
   8001 Z\"urich\\
   \mbox{T +41 00 000 00 00}\\
   \mbox{info@enerphy-suisse.ch}\\
-  \mbox{Reg. CHE-000.000.000}\\[2pt]
+  \mbox{Reg. CHE-000.000.000}\\[10pt]
   \textbf{Egypt (Branch)}\\
   00 Street Name, Cairo\\
   \mbox{T +20 00 0000 0000}\\
@@ -233,22 +233,23 @@
   \pagebackdrop{CERTIFICATE}
 
   % ---- company info block (right column, below the logo) — PLACEHOLDER
-  \node[anchor=north east, text width=3.4cm, align=right] at
-       ($(current page.north east)+(-1.1,-2.55)$)
+  \node[anchor=north west, text width=3.8cm, align=left] at
+       ($(current page.north east)+(-4.4,-2.6)$)
   {%
     \hyphenpenalty=10000\exhyphenpenalty=10000\relax
+    \vspace{3pt}
     {\color{ink}\footnotesize\bfseries \companyName\par}
-    \vspace{2pt}
-    {\color{softink}\scriptsize \companyInfo\par}
+    \vspace{10pt}
+    {\color{softink}\scriptsize \baselineskip=13pt \companyInfo\par}
   };
 
   % ---- certification logos stacked down the right column (shifted down)
-  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-8.7)$)
-       {\includegraphics[width=2.9cm]{pngtree-iso-9001-certified-company-logo-badge-vector-png-image_16209165.png}};
-  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-11.7)$)
-       {\includegraphics[width=2.9cm]{iso-9001-2000-sgs-logo-black-and-white.png}};
-  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-14.5)$)
-       {\includegraphics[width=3.3cm]{ISO-9001.jpg}};
+  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-10.6)$)
+       {\includegraphics[width=2.7cm]{pngtree-iso-9001-certified-company-logo-badge-vector-png-image_16209165.png}};
+  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-13.4)$)
+       {\includegraphics[width=2.7cm]{iso-9001-2000-sgs-logo-black-and-white.png}};
+  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-15.9)$)
+       {\includegraphics[width=3.1cm]{ISO-9001.jpg}};
 
   % =====================================================================
   %  MAIN TEXT COLUMN
