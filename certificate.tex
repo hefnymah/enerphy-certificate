@@ -17,6 +17,7 @@
 \usepackage{graphicx}         % \resizebox for the full-height wordmark
 \usepackage{eso-pic}          % repeat the branded backdrop on course pages
 \usepackage{lastpage}         % dynamic "Page X of N"
+\usepackage{qrcode}           % real, scannable QR code from a URL
 \usetikzlibrary{calc}
 \pagestyle{empty}
 
@@ -90,7 +91,8 @@
 \newcommand{\badgeNo}{0005}
 
 % verification strip (bottom)
-\newcommand{\verifyURL}{verify.enerphy.com}
+\newcommand{\verifyURL}{verify.enerphy-suisse.ch}          % shown as text
+\newcommand{\verifyQR}{http://verify.enerphy-suisse.ch/}   % encoded in the QR
 \newcommand{\verifyHead}{Authentic electronic certificate}
 \newcommand{\verifyLine}{Scan the code or verify authenticity at \textbf{\verifyURL}}
 
@@ -300,29 +302,15 @@
       ($(current page.south west)+(\stripL,4.04)$) -- ($(current page.south west)+(\stripR,4.04)$);
   \end{scope}
 
-  % ---- (2) verification strip: QR block + authenticity text ---------
-  % stylised QR code (deterministic pattern)
-  \begin{scope}[shift={($(current page.south west)+(\stripL+0.15,2.75)$)}]
-    \def\m{0.105}
-    \foreach \qi in {0,...,10}{
-      \foreach \qj in {0,...,10}{
-        \pgfmathtruncatemacro{\bit}{mod(\qi*\qi+\qj*3+\qi*\qj*2+7,5)<2 ? 1 : 0}%
-        \ifnum\bit=1 \fill[ink] (\qi*\m,\qj*\m) rectangle (\qi*\m+\m,\qj*\m+\m);\fi
-      }
-    }
-    % three finder patterns (corners)
-    \foreach \fx/\fy in {0/8, 0/0, 8/8}{
-      \fill[ink]   (\fx*\m,\fy*\m) rectangle (\fx*\m+3*\m,\fy*\m+3*\m);
-      \fill[bg]    (\fx*\m+0.6*\m,\fy*\m+0.6*\m) rectangle (\fx*\m+2.4*\m,\fy*\m+2.4*\m);
-      \fill[ink]   (\fx*\m+1.1*\m,\fy*\m+1.1*\m) rectangle (\fx*\m+1.9*\m,\fy*\m+1.9*\m);
-    }
-  \end{scope}
+  % ---- (2) verification strip: real scannable QR + authenticity text -
+  \node[anchor=south west, inner sep=0] at ($(current page.south west)+(\stripL+0.1,1.95)$)
+       {\qrcode[height=2cm,level=M]{\verifyQR}};
   % authenticity text next to the QR
-  \node[anchor=west, align=left, text=ink] at ($(current page.south west)+(\stripL+1.65,3.35)$)
+  \node[anchor=west, align=left, text=ink] at ($(current page.south west)+(\stripL+2.55,3.35)$)
        {\footnotesize\bfseries \verifyHead};
-  \node[anchor=west, align=left, text=softink] at ($(current page.south west)+(\stripL+1.65,2.92)$)
+  \node[anchor=west, align=left, text=softink] at ($(current page.south west)+(\stripL+2.55,2.9)$)
        {\scriptsize \verifyLine};
-  \node[anchor=west, align=left, text=softink] at ($(current page.south west)+(\stripL+1.65,2.55)$)
+  \node[anchor=west, align=left, text=softink] at ($(current page.south west)+(\stripL+2.55,2.45)$)
        {\scriptsize Certificate No.\ \textbf{\certNo}};
 
   % ---- fine print (centered on the content area, clears the bar) -----
