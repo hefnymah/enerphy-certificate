@@ -85,6 +85,21 @@
 \newcommand{\logoMark}{YTI}          % <- your acronym / replace with \includegraphics
 \newcommand{\providerMark}{YTI}
 
+% company technical info shown in the right column, below the logo.
+% >>> PLACEHOLDER — replace with the real details later. <<<
+\newcommand{\companyName}{ENERPHY SUISSE AG}
+\newcommand{\companyInfo}{%
+  \textbf{Switzerland (HQ)}\\
+  Musterstrasse 00\\
+  8001 Z\"urich\\
+  \mbox{T +41 00 000 00 00}\\
+  \mbox{info@enerphy-suisse.ch}\\
+  \mbox{Reg. CHE-000.000.000}\\[2pt]
+  \textbf{Egypt (Branch)}\\
+  00 Street Name, Cairo\\
+  \mbox{T +20 00 0000 0000}\\
+  \mbox{egypt@enerphy-suisse.ch}}
+
 % accreditation-style badge (bottom-right)
 \newcommand{\badgeTop}{ACCREDITED}
 \newcommand{\badgeMid}{TRAINING\\ PROVIDER}
@@ -217,12 +232,22 @@
   % ---- shared backdrop: background, bar, wordmark, guilloché, logo ----
   \pagebackdrop{CERTIFICATE}
 
-  % ---- certification logos stacked down the right column -------------
-  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-5.9)$)
+  % ---- company info block (right column, below the logo) — PLACEHOLDER
+  \node[anchor=north east, text width=3.4cm, align=right] at
+       ($(current page.north east)+(-1.1,-2.55)$)
+  {%
+    \hyphenpenalty=10000\exhyphenpenalty=10000\relax
+    {\color{ink}\footnotesize\bfseries \companyName\par}
+    \vspace{2pt}
+    {\color{softink}\scriptsize \companyInfo\par}
+  };
+
+  % ---- certification logos stacked down the right column (shifted down)
+  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-8.7)$)
        {\includegraphics[width=2.9cm]{pngtree-iso-9001-certified-company-logo-badge-vector-png-image_16209165.png}};
-  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-9.4)$)
+  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-11.7)$)
        {\includegraphics[width=2.9cm]{iso-9001-2000-sgs-logo-black-and-white.png}};
-  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-12.7)$)
+  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-14.5)$)
        {\includegraphics[width=3.3cm]{ISO-9001.jpg}};
 
   % =====================================================================
