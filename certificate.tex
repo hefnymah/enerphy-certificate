@@ -100,7 +100,6 @@
 % in a new syllabus file per course and just change this one line.
 \newif\ifcoursepage
 \coursepagetrue
-\newcommand{\barwordTwo}{COURSE OUTLINE}
 \newcommand{\coursePageTitle}{Course Outline}
 \newcommand{\courseContentFile}{course-content/fssc-22000-awareness}
 
@@ -203,7 +202,7 @@
 \AddToShipoutPictureBG{%
   \ifnum\value{page}>1
     \begin{tikzpicture}[remember picture,overlay]
-      \pagebackdrop{\barwordTwo}
+      \pagebackdrop{CERTIFICATE}
       \node[anchor=south west, text=softink, font=\scriptsize]
            at ($(current page.south west)+({\barwidth+0.4},0.9)$)
            {Page \thepage\ of \pageref{LastPage}};
