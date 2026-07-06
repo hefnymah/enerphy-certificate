@@ -239,22 +239,22 @@
   \pagebackdrop{CERTIFICATE}
 
   % ---- company info block (right column, below the logo) — PLACEHOLDER
+  %  Anchor sits ~20px below the logo so the name never touches it.
   \node[anchor=north west, text width=3.8cm, align=left] at
-       ($(current page.north east)+(-4.4,-2.6)$)
+       ($(current page.north east)+(-4.4,-3.25)$)
   {%
     \hyphenpenalty=10000\exhyphenpenalty=10000\relax
-    \vspace{3pt}
     {\color{ink}\footnotesize\bfseries \companyName\par}
     \vspace{10pt}
     {\color{softink}\scriptsize \baselineskip=13pt \companyInfo\par}
   };
 
   % ---- certification logos stacked down the right column (shifted down)
-  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-10.6)$)
+  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-11.1)$)
        {\includegraphics[width=2.7cm]{pngtree-iso-9001-certified-company-logo-badge-vector-png-image_16209165.png}};
-  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-13.4)$)
+  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-13.9)$)
        {\includegraphics[width=2.7cm]{iso-9001-2000-sgs-logo-black-and-white.png}};
-  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-15.9)$)
+  \node[anchor=center, inner sep=0] at ($(current page.north east)+(-3.0,-16.4)$)
        {\includegraphics[width=3.1cm]{ISO-9001.jpg}};
 
   % =====================================================================
