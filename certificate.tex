@@ -300,10 +300,11 @@
   \node[anchor=west, align=left, text=softink] at ($(current page.south west)+(\stripL+2.85,2.45)$)
        {\scriptsize Certificate No.\ \textbf{\certNo}};
 
-  % ---- fine print (left-aligned, ABOVE the guilloché strip) ----------
+  % ---- fine print with a footnote-style rule above -------------------
   % (page number is drawn for every page by the foreground hook above)
-  \node[anchor=south west, text width=14cm, align=left, text=softink, font=\tiny]
-       at ($(current page.south west)+(\stripL,4.95)$) {\finePrint};
+  \node[anchor=south west, text width=14cm, align=left, text=softink, font=\scriptsize]
+       at ($(current page.south west)+(\stripL,4.85)$)
+       {\rule{6cm}{0.3pt}\\[4pt]\finePrint};
 
 \end{tikzpicture}
 
