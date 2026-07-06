@@ -213,18 +213,24 @@
 
 \newlength{\coursemargin}
 
-% Repeat the branded backdrop + footer on every page AFTER page 1, so
-% course content that flows onto extra pages stays fully branded and the
-% page numbering ("Page X of N") is always correct.
+% Repeat the branded backdrop on every page AFTER page 1, so course
+% content that flows onto extra pages stays fully branded.
 \AddToShipoutPictureBG{%
   \ifnum\value{page}>1
     \begin{tikzpicture}[remember picture,overlay]
       \pagebackdrop{CERTIFICATE}
-      \node[anchor=south east, text=softink, font=\scriptsize]
-           at ($(current page.south east)+(-1.0,0.9)$)
-           {Page \thepage\ of \pageref{LastPage}};
     \end{tikzpicture}%
   \fi}
+
+% Page number in the SAME fixed position on EVERY page (single source,
+% drawn in the foreground so it shows on page 1's opaque background too).
+\AddToShipoutPictureFG{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south east, text=softink, font=\scriptsize]
+         at ($(current page.south east)+(-1.0,0.9)$)
+         {Page \thepage\ of \pageref{LastPage}};
+  \end{tikzpicture}%
+}
 
 % =====================================================================
 \begin{document}
@@ -340,10 +346,9 @@
        {\scriptsize Certificate No.\ \textbf{\certNo}};
 
   % ---- fine print (left-aligned, ABOVE the guilloché strip) ----------
+  % (page number is drawn for every page by the foreground hook above)
   \node[anchor=south west, text width=14cm, align=left, text=softink, font=\tiny]
        at ($(current page.south west)+(\stripL,4.95)$) {\finePrint};
-  \node[anchor=south east, text=softink, font=\scriptsize]
-       at ($(current page.south east)+(-1.0,0.35)$) {Page 1 of \pageref{LastPage}};
 
 \end{tikzpicture}
 
