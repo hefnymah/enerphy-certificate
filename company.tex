@@ -1,0 +1,69 @@
+% =====================================================================
+%  company.tex  —  SINGLE SOURCE OF TRUTH for all company information.
+%
+%  Fill in the values below. certificate.tex \input's this file and uses
+%  these fields everywhere (right-column info block, signature/issuer,
+%  the top-right logo, the verification QR + text, and the legal footer).
+%
+%  Editing tips:
+%    - Special characters:  &  ->  \&        ü -> \"u        é -> \'e
+%    - In an address field, use  \\  to start a new line.
+%    - Keep phones/emails as written; they stay on one line automatically.
+%    - To add another office, copy an office block and add it to
+%      \companyInfo in certificate.tex (one line).
+% =====================================================================
+
+% ---- Identity -------------------------------------------------------
+\def\companyName{ENERPHY SUISSE AG}          % legal name (right-column header)
+\def\coTagline{Energy \& Climate}            % short tagline (optional use)
+\def\coWebsite{www.enerphy-suisse.ch}
+\def\coEmail{info@enerphy-suisse.ch}
+
+% ---- Legal / registration ------------------------------------------
+\def\coRegNo{CHE-000.000.000}                % commercial register number
+\def\coVAT{CHE-000.000.000 MWST}             % VAT number (optional use)
+
+% ---- Top-right logo -------------------------------------------------
+% Text acronym is used by default. To use an image logo instead, set the
+% switch to \coLogoImagetrue and put the file name in \coLogoImage.
+\newif\ifcoLogoImage  \coLogoImagefalse
+\def\coLogoMark{YTI}                         % text logo (shown when image is off)
+\def\coLogoImage{enerphy_logo.png}           % image logo (shown when image is on)
+
+% ---- Offices --------------------------------------------------------
+% Head office ---------------------------------------------------------
+\def\officeHQlabel{Switzerland (HQ)}
+\def\officeHQaddress{Musterstrasse 00\\ 8001 Z\"urich}   % use \\ for extra lines
+\def\officeHQphone{+41 00 000 00 00}
+\def\officeHQemail{info@enerphy-suisse.ch}
+
+% Branch office -------------------------------------------------------
+\def\officeEGlabel{Egypt (Branch)}
+\def\officeEGaddress{00 Street Name\\ Cairo, Egypt}
+\def\officeEGphone{+20 00 0000 0000}
+\def\officeEGemail{egypt@enerphy-suisse.ch}
+
+% ---- Verification portal -------------------------------------------
+\def\verifyURL{verify.enerphy-suisse.ch}           % shown as text
+\def\verifyQR{http://verify.enerphy-suisse.ch/}    % encoded in the QR code
+\def\verifyHead{Authentic electronic certificate}
+\def\verifyLine{Scan the code or verify authenticity at \textbf{\verifyURL}}
+
+% ---- Signature / issuer (bottom of page 1) -------------------------
+\def\signRole{Authorised by}
+\def\signName{Authorised Accredited Office Manager}
+\def\signImage{signature.pdf}                % scanned signature (transparent)
+\def\stampImage{enerphy-stamp+.png}          % official round stamp (transparent)
+% Issuer block printed under the signature:
+\def\issuerBlock{%
+  \companyName\\
+  Musterstrasse 00 \; 8001 Z\"urich \; Switzerland\\
+  \mbox{T +41 00 000 00 00} \quad \coWebsite}
+
+% ---- Legal fine print (footer of page 1) ---------------------------
+\def\finePrint{%
+  This document is issued by the Company subject to its General Conditions of certification
+  services. This certificate remains the property of the issuing body and must be returned on
+  request. The authenticity of this document may be verified with the issuing office. Any
+  unauthorised alteration, forgery or falsification of the content or appearance of this document
+  is unlawful and offenders may be prosecuted to the fullest extent of the law.}

@@ -73,43 +73,24 @@
   Date of training completion 28 April 2026\\
   Issue 1. Certified since 28 April 2026}
 
-% signature / issuer
-\newcommand{\signRole}{Authorised by}
-\newcommand{\signName}{Authorised Accredited Office Manager}
-\newcommand{\issuerBlock}{%
-  Your Training Institute Ltd\\
-  Rossmore Business Park \; Ellesmere Port \; Cheshire \; CH65 3EN \; UK\\
-  t +44 (0)151 000-0000 \quad www.your-institute.com}
+% ---- COMPANY DATA — single source of truth (edit company.tex) ------
+\input{company.tex}
 
-% big logo mark (top-right) and provider mark (bottom-left)
-\newcommand{\logoMark}{YTI}          % <- your acronym / replace with \includegraphics
-\newcommand{\providerMark}{YTI}
-
-% company technical info shown in the right column, below the logo.
-% >>> PLACEHOLDER — replace with the real details later. <<<
-\newcommand{\companyName}{ENERPHY SUISSE AG}
+% Presentation helpers that compose the right-column info block from the
+% office fields defined in company.tex (address may contain \\ lines).
+\newcommand{\officeblock}[4]{%
+  \textbf{#1}\\ #2\\ \mbox{T~#3}\\ \mbox{#4}}
 \newcommand{\companyInfo}{%
-  \textbf{Switzerland (HQ)}\\
-  Musterstrasse 00\\
-  8001 Z\"urich\\
-  \mbox{T +41 00 000 00 00}\\
-  \mbox{info@enerphy-suisse.ch}\\
-  \mbox{Reg. CHE-000.000.000}\\[10pt]
-  \textbf{Egypt (Branch)}\\
-  00 Street Name, Cairo\\
-  \mbox{T +20 00 0000 0000}\\
-  \mbox{egypt@enerphy-suisse.ch}}
-
-% accreditation-style badge (bottom-right)
-\newcommand{\badgeTop}{ACCREDITED}
-\newcommand{\badgeMid}{TRAINING\\ PROVIDER}
-\newcommand{\badgeNo}{0005}
-
-% verification strip (bottom)
-\newcommand{\verifyURL}{verify.enerphy-suisse.ch}          % shown as text
-\newcommand{\verifyQR}{http://verify.enerphy-suisse.ch/}   % encoded in the QR
-\newcommand{\verifyHead}{Authentic electronic certificate}
-\newcommand{\verifyLine}{Scan the code or verify authenticity at \textbf{\verifyURL}}
+  \officeblock{\officeHQlabel}{\officeHQaddress}{\officeHQphone}{\officeHQemail}\\
+  \mbox{Reg.\ \coRegNo}\\[10pt]
+  \officeblock{\officeEGlabel}{\officeEGaddress}{\officeEGphone}{\officeEGemail}}
+% Top-right logo: text acronym or image, per the company.tex switch.
+\newcommand{\rendercoLogo}{%
+  \ifcoLogoImage
+    \includegraphics[height=1.7cm]{\coLogoImage}%
+  \else
+    {\color{logogrey}\fontsize{58}{58}\selectfont\bfseries \coLogoMark}%
+  \fi}
 
 % --- page 2: course content (optional, modular) ----------------------
 % Set \coursepagefalse to print the certificate alone (single page).
@@ -119,14 +100,6 @@
 \coursepagetrue
 \newcommand{\coursePageTitle}{Course Outline}
 \newcommand{\courseContentFile}{course-content/fssc-22000-awareness}
-
-% fine print
-\newcommand{\finePrint}{%
-  This document is issued by the Company subject to its General Conditions of certification
-  services. This certificate remains the property of the issuing body and must be returned on
-  request. The authenticity of this document may be verified with the issuing office. Any
-  unauthorised alteration, forgery or falsification of the content or appearance of this document
-  is unlawful and offenders may be prosecuted to the fullest extent of the law.}
 
 % =====================================================================
 %  BIRD SILHOUETTE  (flying, wings spread) — used for watermark & row
@@ -198,8 +171,8 @@
       }
     \end{scope}
   \end{scope}
-  \node[anchor=north east, text=logogrey] at ($(current page.north east)+(-1.1,-1.15)$)
-        {\fontsize{58}{58}\selectfont\bfseries \logoMark};
+  \node[anchor=north east] at ($(current page.north east)+(-1.1,-1.15)$)
+        {\rendercoLogo};
   \draw[accent,line width=1.3pt]
         ($(current page.north east)+(-3.9,-2.15)$) -- ($(current page.north east)+(-1.1,-2.15)$);%
 }
@@ -294,7 +267,7 @@
        at ($(current page.north west)+(15.3,-16.2)$) {\signRole};
   % scanned signature
   \node[anchor=center, inner sep=0] at ($(current page.north west)+(13.3,-17.6)$)
-       {\includegraphics[height=2.0cm]{signature.pdf}};
+       {\includegraphics[height=2.0cm]{\signImage}};
   % signature line + name + issuer
   \draw[softink,line width=0.4pt]
        ($(current page.north west)+(11.2,-18.75)$) -- ($(current page.north west)+(15.3,-18.75)$);
@@ -305,7 +278,7 @@
   % official round stamp (semi-transparent ink), overlapping the signature
   \node[anchor=center, inner sep=0, opacity=0.9, rotate=-8]
        at ($(current page.north west)+(10.0,-17.3)$)
-       {\includegraphics[width=3.1cm]{enerphy-stamp+.png}};
+       {\includegraphics[width=3.1cm]{\stampImage}};
 
 
   % ==== FOOTER: guilloché security strip + verification strip =========
