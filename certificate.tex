@@ -220,8 +220,8 @@
   \ifnum\value{page}>1
     \begin{tikzpicture}[remember picture,overlay]
       \pagebackdrop{CERTIFICATE}
-      \node[anchor=south west, text=softink, font=\scriptsize]
-           at ($(current page.south west)+({\barwidth+0.4},0.9)$)
+      \node[anchor=south east, text=softink, font=\scriptsize]
+           at ($(current page.south east)+(-1.0,0.9)$)
            {Page \thepage\ of \pageref{LastPage}};
     \end{tikzpicture}%
   \fi}
@@ -342,8 +342,8 @@
   % ---- fine print (centered on the content area, clears the bar) -----
   \node[anchor=north, text width=13.5cm, align=center, text=softink, font=\tiny]
        at ($(current page.south west)+(13.1,1.9)$) {\finePrint};
-  \node[anchor=south west, text=softink, font=\scriptsize]
-       at ($(current page.south west)+(\stripL,0.35)$) {Page 1 of \pageref{LastPage}};
+  \node[anchor=south east, text=softink, font=\scriptsize]
+       at ($(current page.south east)+(-1.0,0.35)$) {Page 1 of \pageref{LastPage}};
 
 \end{tikzpicture}
 
