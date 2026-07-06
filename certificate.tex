@@ -286,29 +286,9 @@
   \pgfmathsetmacro{\stripL}{\barwidth+0.4}      % left x of the strips
   \def\stripR{19.8}                              % right x of the strips
 
-  % ---- verification CONTAINER, framed top & bottom with guilloché ----
-  \pgfmathsetmacro{\stripW}{\stripR-\stripL}
-  % top and bottom woven "money" wave bands (edges of the container)
-  \foreach \bandy in {4.35, 1.60}{
-    \begin{scope}[shift={($(current page.south west)+(\stripL,\bandy)$)}]
-      \clip (0,-0.20) rectangle (\stripW,0.20);
-      \foreach \yo in {-0.14,-0.08,...,0.14}{
-        \draw[guilB,line width=0.11pt,opacity=0.6]
-          plot[domain=0:\stripW,samples=240,variable=\x] ({\x},{\yo+0.1*sin(150*\x)});
-        \draw[guilA,line width=0.11pt,opacity=0.6]
-          plot[domain=0:\stripW,samples=240,variable=\x] ({\x},{\yo-0.1*sin(150*\x)});
-      }
-    \end{scope}
-  }
-  % container frame: outer border + inner edge of each band
-  \begin{scope}[draw=guilB,opacity=0.6]
-    \draw[line width=0.3pt]
-      ($(current page.south west)+(\stripL,1.35)$) rectangle ($(current page.south west)+(\stripR,4.60)$);
-    \draw[line width=0.2pt]
-      ($(current page.south west)+(\stripL,4.13)$) -- ($(current page.south west)+(\stripR,4.13)$);
-    \draw[line width=0.2pt]
-      ($(current page.south west)+(\stripL,1.83)$) -- ($(current page.south west)+(\stripR,1.83)$);
-  \end{scope}
+  % ---- verification container: single thin border -------------------
+  \draw[softink,line width=0.3pt,opacity=0.6]
+    ($(current page.south west)+(\stripL,1.55)$) rectangle ($(current page.south west)+(\stripR,4.15)$);
 
   % ---- QR + authenticity text INSIDE the container ------------------
   \node[anchor=south west, inner sep=0] at ($(current page.south west)+(\stripL+0.35,1.98)$)
