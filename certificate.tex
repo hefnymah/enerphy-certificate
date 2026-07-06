@@ -339,9 +339,9 @@
   \node[anchor=west, align=left, text=softink] at ($(current page.south west)+(\stripL+2.55,2.45)$)
        {\scriptsize Certificate No.\ \textbf{\certNo}};
 
-  % ---- fine print (centered on the content area, clears the bar) -----
-  \node[anchor=north, text width=13.5cm, align=center, text=softink, font=\tiny]
-       at ($(current page.south west)+(13.1,1.9)$) {\finePrint};
+  % ---- fine print (left-aligned, ABOVE the guilloché strip) ----------
+  \node[anchor=south west, text width=14cm, align=left, text=softink, font=\tiny]
+       at ($(current page.south west)+(\stripL,4.95)$) {\finePrint};
   \node[anchor=south east, text=softink, font=\scriptsize]
        at ($(current page.south east)+(-1.0,0.35)$) {Page 1 of \pageref{LastPage}};
 
