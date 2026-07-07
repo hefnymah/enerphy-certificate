@@ -81,26 +81,28 @@
   \node[anchor=north west, inner sep=0, text=white, font=\small, text width=7.0cm] at ($#1+(0.66,-0.36)$) {#4};
 }
 
-% ---- the hero banner (image if \advHeroImage is set, else gradient) --
-\newcommand{\adverthero}[1]{% #1 = hero height in cm
+% ---- the top banner (photo if \advHeroImage is set, else gradient) ---
+% The title sits BELOW this banner, so the photo is shown full and centred
+% on its subject (width = page, cropped to the band height by the clip).
+\newcommand{\adverthero}[1]{% #1 = banner height in cm
   \begin{scope}
     \clip (current page.north west) rectangle ($(current page.north east)+(0,-#1)$);
     \ifdefempty{\advHeroImage}{%
-      % gradient placeholder with a faint globe motif
       \shade[top color=adTeal, bottom color=adInk]
         (current page.north west) rectangle ($(current page.north east)+(0,-#1)$);
-      \begin{scope}[shift={($(current page.north east)+(-3.2,-#1)$)}]
-        \foreach \r in {1.2,1.9,...,4.0}{\draw[white,opacity=0.08,line width=0.4pt] (0,3) circle (\r);}
-        \foreach \yy in {1.4,2.2,3.0,3.8,4.6}{\draw[white,opacity=0.08,line width=0.4pt] (-3.6,\yy) .. controls (-1.2,{\yy+0.5}) and (1.2,{\yy-0.5}) .. (3.6,\yy);}
+      \begin{scope}[shift={($(current page.north east)+(-3.4,-#1)$)}]
+        \foreach \r in {1.2,1.9,...,4.4}{\draw[white,opacity=0.08,line width=0.4pt] (0,3) circle (\r);}
       \end{scope}
     }{%
-      \node[anchor=north, inner sep=0] at (current page.north)
+      \node[anchor=center, inner sep=0] at ($(current page.north)+(0,{-#1/2})$)
         {\includegraphics[width=\paperwidth]{\advHeroImage}};
     }%
-    % dark scrim at the bottom of the hero for title legibility
-    \fill[adInk,opacity=0.55,path fading=north]
-      ($(current page.north west)+(0,-#1)$) rectangle ($(current page.north east)+(0,{-#1+3.9})$);
+    % subtle dark scrim at the very top so the white logo stays legible
+    \fill[adInk,opacity=0.42,path fading=south]
+      (current page.north west) rectangle ($(current page.north east)+(0,-2.3)$);
   \end{scope}
+  % crisp accent divider under the banner
+  \fill[adAccent] ($(current page.north west)+(0,-#1)$) rectangle ($(current page.north east)+(0,{-#1-0.11})$);
 }
 
 % =====================================================================
@@ -122,47 +124,48 @@
     \end{scope}
   \end{scope}
 
-  \adverthero{9.9}   % hero (image or gradient) — covers the pattern up top
+  \adverthero{8.3}   % photo/gradient banner — covers the pattern up top
 
-  % ---- branding + title over the hero -------------------------------
+  % logo over the banner (top-left)
   \node[anchor=north west, text=white, font=\Large\bfseries] at
        ($(current page.north west)+(1.3,-1.15)$) {\companyName};
-  \node[anchor=west, text=adAccent, font=\bfseries\footnotesize] at
-       ($(current page.north west)+(1.35,-6.3)$)
-       {\hspace{0.02cm}\advKicker};
-  \node[anchor=north west, text=white, text width=18.5cm, font=\fontsize{27}{30}\selectfont\bfseries]
-       at ($(current page.north west)+(1.3,-6.7)$)
+
+  % ---- title block (BELOW the banner) -------------------------------
+  \node[anchor=north west, text=adAccent, font=\bfseries\footnotesize] at
+       ($(current page.north west)+(1.35,-8.95)$) {\advKicker};
+  \node[anchor=north west, text=adInk, text width=18.5cm, font=\fontsize{26}{29}\selectfont\bfseries]
+       at ($(current page.north west)+(1.3,-9.4)$)
        {\hyphenchar\font=-1 \advTitle};
-  \node[anchor=north west, text=white!85, text width=18cm, font=\normalsize] at
-       ($(current page.north west)+(1.35,-9.05)$) {\advSubtitle};
+  \node[anchor=north west, text=adGreen, text width=18cm, font=\normalsize] at
+       ($(current page.north west)+(1.35,-11.65)$) {\advSubtitle};
 
   % ---- intro --------------------------------------------------------
   \node[anchor=north west, text=adBody, text width=18.4cm, align=justify, font=\small] at
-       ($(current page.north west)+(1.3,-10.7)$) {\advIntro};
+       ($(current page.north west)+(1.3,-12.75)$) {\advIntro};
 
   % ---- benefits -----------------------------------------------------
   \node[anchor=north west, text=adInk, font=\large\bfseries] at
-       ($(current page.north west)+(1.3,-14.2)$) {\advBenefitsHead};
+       ($(current page.north west)+(1.3,-16.1)$) {\advBenefitsHead};
   \draw[adAccent,line width=1.4pt]
-       ($(current page.north west)+(1.35,-14.75)$) -- ($(current page.north west)+(3.9,-14.75)$);
+       ($(current page.north west)+(1.35,-16.65)$) -- ($(current page.north west)+(3.9,-16.65)$);
   \node[anchor=north west, text=adBody, text width=8.7cm, font=\small] at
-       ($(current page.north west)+(1.3,-15.1)$) {\advBenefitsA};
+       ($(current page.north west)+(1.3,-17.0)$) {\advBenefitsA};
   \node[anchor=north west, text=adBody, text width=8.7cm, font=\small] at
-       ($(current page.north west)+(10.6,-15.1)$) {\advBenefitsB};
+       ($(current page.north west)+(10.6,-17.0)$) {\advBenefitsB};
 
   % ---- programme details card ---------------------------------------
   \fill[adInk,rounded corners=6pt]
-       ($(current page.north west)+(1.2,-19.9)$) rectangle ($(current page.north east)+(-1.2,-24.4)$);
+       ($(current page.north west)+(1.2,-21.2)$) rectangle ($(current page.north east)+(-1.2,-25.7)$);
   \node[anchor=north west, text=adAccent, font=\bfseries] at
-       ($(current page.north west)+(1.7,-20.35)$) {PROGRAMME DETAILS};
-  \dblk{(current page.north west)+(1.7,-21.35)}{\icoCal}{DATES}{\advDates}
-  \dblk{(current page.north west)+(1.7,-22.95)}{\icoClock}{TIME}{\advTime}
-  \dblk{(current page.north west)+(10.7,-21.35)}{\icoPin}{LOCATION}{\advLocation}
-  \dblk{(current page.north west)+(10.7,-22.95)}{\icoScreen}{FORMAT}{\advFormat}
+       ($(current page.north west)+(1.7,-21.65)$) {PROGRAMME DETAILS};
+  \dblk{(current page.north west)+(1.7,-22.65)}{\icoCal}{DATES}{\advDates}
+  \dblk{(current page.north west)+(1.7,-24.25)}{\icoClock}{TIME}{\advTime}
+  \dblk{(current page.north west)+(10.7,-22.65)}{\icoPin}{LOCATION}{\advLocation}
+  \dblk{(current page.north west)+(10.7,-24.25)}{\icoScreen}{FORMAT}{\advFormat}
 
   % ---- call to action + footer --------------------------------------
   \node[anchor=north west, text=adInk, text width=14cm, font=\small\itshape] at
-       ($(current page.north west)+(1.3,-25.2)$) {\advCTA};
+       ($(current page.north west)+(1.3,-26.5)$) {\advCTA};
   \node[anchor=south east, text=adGreen, font=\footnotesize\bfseries] at
        ($(current page.south east)+(-1.3,1.2)$) {Register: \coWebsite};
   \draw[adAccent,line width=2pt]
