@@ -12,12 +12,25 @@ enerphycert.sty              # the "engine" (class): all layout + the public API
 src/
   company.tex                # company data — SINGLE SOURCE OF TRUTH
   assets/                    # logos, stamp, signature (referenced by basename)
+  backgrounds/               # swappable background art (pick one in main.tex)
+    guilloche.tex            #   the banknote engraving (default)
+    contours.tex             #   topographic contour rings
+    plain.tex                #   no background
 courses/
-  fssc-22000-awareness/      # one folder per course
-    course.tex               #   course metadata (title, scope, dates, ...)
+  fssc-22000-awareness/      # a training course (certificate type)
+    course.tex               #   metadata (title, scope, dates, ...)
     content.tex              #   page-2 syllabus
     participants.csv         #   holders: certno,name,org  (one row = one certificate)
+carbon-offsets/
+  saf-flight-offset/         # a sustainability certificate type (SAF carbon offset)
+    course.tex               #   metadata (+ its own verification link)
+    content.tex              #   page-2 carbon footprint report
+    participants.csv         #   holders
 ```
+
+Each top-level folder (`courses/`, `carbon-offsets/`, …) is a family of
+certificate types; each subfolder is one type. Point `\usecourse{<path>}`
+at any of them.
 
 Think of it as: `enerphycert.sty` is the class, `src/company.tex` is a config object,
 each `courses/<key>/` is a course instance, and each CSV row is a participant instance.
@@ -38,6 +51,11 @@ tectonic main.tex          # or: pdflatex main.tex / xelatex main.tex
 ```
 
 On **Overleaf**: upload the whole folder, set `main.tex` as the main document, Recompile.
+
+### Choosing the background
+In `main.tex`, `\usebackground{guilloche}` — swap for `contours` or `plain`,
+or add your own file to `src/backgrounds/` (it just `\renewcommand`s
+`\certbackground`).
 
 ### Choosing what to produce
 Edit the **PRODUCTION MODE** block in `main.tex` and uncomment one line:

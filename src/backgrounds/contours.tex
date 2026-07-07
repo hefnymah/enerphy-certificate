@@ -1,0 +1,20 @@
+% =====================================================================
+%  Background: "contours"  — faint topographic contour rings.
+%  An alternative look (fitting climate / sustainability certificates).
+%  Use with \usebackground{contours} in main.tex.
+% =====================================================================
+\renewcommand{\certbackground}{%
+  \begin{scope}
+    \clip (current page.south west) rectangle (current page.north east);
+    \begin{scope}[shift={($(current page.center)+(3.2,-1.2)$)}]
+      \foreach \r [count=\i] in {1.4,2.3,...,17}{
+        \pgfmathsetmacro\op{0.20-0.007*\r}
+        \pgfmathtruncatemacro\sel{mod(\i,2)}
+        \edef\rc{\ifcase\sel guilB\or guilC\fi}%
+        \draw[\rc,line width=0.1pt,opacity=\op]
+          plot[domain=0:360,samples=360,smooth cycle,variable=\a]
+          ({(\r+0.5*sin(3*\a+\r*22))*cos(\a)},{(\r+0.5*sin(3*\a+\r*22))*sin(\a)});
+      }
+    \end{scope}
+  \end{scope}%
+}

@@ -7,7 +7,7 @@
 *.fdb_latexmk
 
 # temp / test files
-main_single.*
+main_*.*
 preview*.png
 *crop*.png
 /tmp

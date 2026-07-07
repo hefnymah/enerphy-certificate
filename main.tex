@@ -2,8 +2,8 @@
 %  Enerphy Certificate  —  entry point
 %
 %  Compile locally (tectonic / pdflatex / xelatex main.tex) or on
-%  Overleaf (set main.tex as the main document).  Choose the course and
-%  the production mode below, then compile to a single PDF.
+%  Overleaf (set main.tex as the main document).  Choose the background,
+%  the certificate folder and the production mode below.
 % =====================================================================
 \documentclass[11pt]{article}
 
@@ -11,7 +11,13 @@
 \graphicspath{{src/assets/}}        % logos, stamp and signature live here
 
 \input{src/company.tex}             % company data — single source of truth
-\usecourse{fssc-22000-awareness}    % load courses/<key>/course.tex + content
+
+% ---- background art (swap freely — files in src/backgrounds/) -------
+\usebackground{guilloche}           % or: plain , contours
+
+% ---- which certificate to issue (folder with course/content/csv) ---
+\usecourse{courses/fssc-22000-awareness}
+% \usecourse{carbon-offsets/saf-flight-offset}   % carbon offset / SAF
 
 \begin{document}
 
