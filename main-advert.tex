@@ -1,0 +1,17 @@
+% =====================================================================
+%  Enerphy Course Advert  —  entry point (separate from the certificate)
+%
+%  Compile locally (tectonic / pdflatex / xelatex main-advert.tex) or on
+%  Overleaf (set THIS file as the main document to build the poster).
+% =====================================================================
+\documentclass[11pt]{article}
+
+\usepackage{enerphyadvert}          % the advert/poster engine
+\graphicspath{{src/assets/}}        % logos and any hero image live here
+
+\input{src/company.tex}             % shared company data
+\input{adverts/iso-14064-ghg/advert.tex}   % this advert's content
+
+\begin{document}
+\makeadvert
+\end{document}

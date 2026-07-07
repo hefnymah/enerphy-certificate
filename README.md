@@ -44,10 +44,24 @@ each `courses/<key>/` is a course instance, and each CSV row is a participant in
 | `\singlecertificate{<csv>}{<certno>}` | Render just the one row matching that certificate number |
 | `\setparticipant{name}{org}{certno}` + `\makecertificate` | Ad-hoc single certificate (no CSV) |
 
+## Two deliverables, one repo
+
+| Build | Entry file | Engine | What it makes |
+|---|---|---|---|
+| **Certificate** | `main.tex` | `enerphycert.sty` | the fancy 2-page certificate (batch or single) |
+| **Course advert** | `main-advert.tex` | `enerphyadvert.sty` | a one-page marketing poster for a course |
+
+Both share `src/company.tex` and `src/assets/`. Advert content lives in
+`adverts/<course-key>/advert.tex` (title, subtitle, intro, benefits, dates,
+CTA). To use a real hero photo, put it in `src/assets/` and set
+`\def\advHeroImage{yourphoto.jpg}` in the advert file (otherwise a green
+gradient hero is drawn).
+
 ## Build
 
 ```bash
-tectonic main.tex          # or: pdflatex main.tex / xelatex main.tex
+tectonic main.tex          # certificate   (or pdflatex / xelatex)
+tectonic main-advert.tex   # course advert
 ```
 
 On **Overleaf**: upload the whole folder, set `main.tex` as the main document, Recompile.

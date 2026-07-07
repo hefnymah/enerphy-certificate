@@ -1,0 +1,160 @@
+% =====================================================================
+%  enerphyadvert.sty  —  Enerphy course ADVERT / marketing one-pager.
+%
+%  A separate layout from the certificate engine. Renders a fancy A4
+%  poster: hero banner (image or gradient) with the title over it, an
+%  intro, a "what's in it for you" list, a programme-details card and a
+%  call to action. Content comes from an advert file in adverts/<key>/.
+%
+%     \makeadvert           render the poster from the \adv* macros
+%     (see adverts/iso-14064-ghg/advert.tex for the fields)
+%
+%  Pure LaTeX — works locally and on Overleaf. Reuses src/company.tex.
+% =====================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{enerphyadvert}[2026/07/07 v1.0 Enerphy advert engine]
+
+\RequirePackage[a4paper,margin=0pt]{geometry}
+\RequirePackage{tikz}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\RequirePackage{microtype}
+\RequirePackage{graphicx}
+\RequirePackage{etoolbox}
+\usetikzlibrary{calc,fadings}
+\pagestyle{empty}
+
+% ---- palette (climate greens + the Enerphy accent) -----------------
+\definecolor{adInk}{RGB}{18,46,38}          % deep green (hero bottom / card)
+\definecolor{adGreen}{RGB}{28,110,90}
+\definecolor{adTeal}{RGB}{45,150,128}       % hero top
+\definecolor{adBody}{RGB}{55,62,66}         % body text
+\definecolor{adSoft}{RGB}{110,120,120}      % secondary text
+\definecolor{adLight}{RGB}{238,244,241}     % light panel
+\definecolor{adAccent}{RGB}{228,118,32}     % orange accent
+
+% ---- content fields (defaults; overridden by adverts/<key>/advert.tex)
+\providecommand{\advKicker}{PROFESSIONAL TRAINING}
+\providecommand{\advTitle}{Course Title}
+\providecommand{\advSubtitle}{Subtitle}
+\providecommand{\advIntro}{Intro paragraph.}
+\providecommand{\advBenefitsHead}{What's in it for you?}
+\providecommand{\advBenefitsA}{}
+\providecommand{\advBenefitsB}{}
+\providecommand{\advDates}{--}
+\providecommand{\advTime}{--}
+\providecommand{\advLocation}{--}
+\providecommand{\advFormat}{--}
+\providecommand{\advCTA}{Seats are limited.}
+\providecommand{\advHeroImage}{}            % empty = drawn gradient hero
+
+% small inline check mark used for benefit bullets
+\newcommand{\leafmark}{\tikz[baseline=-0.5ex]{\draw[adAccent,line width=1.1pt,line cap=round]
+  (0,0) -- (0.09,-0.09) -- (0.26,0.13);}}
+% a check-marked benefit line (hanging indent)
+\newcommand{\abullet}{\par\vspace{4pt}\noindent
+  \hangindent=0.5cm\hangafter=1 \leafmark\hspace{0.24cm}}
+
+% simple TikZ icons for the details card (drawn in the current colour,
+% top-left at the origin, ~0.44cm box, growing downward)
+\newcommand{\icoCal}{%
+  \draw[line width=1pt,rounded corners=1.5pt] (0,-0.06) rectangle (0.42,-0.4);
+  \fill (0,-0.06) rectangle (0.42,-0.16);
+  \draw[line width=1pt] (0.1,0)--(0.1,-0.1) (0.32,0)--(0.32,-0.1);}
+\newcommand{\icoClock}{%
+  \draw[line width=1pt] (0.21,-0.23) circle (0.19);
+  \draw[line width=1pt] (0.21,-0.23)--(0.21,-0.11) (0.21,-0.23)--(0.31,-0.27);}
+\newcommand{\icoPin}{%
+  \fill (0.2,-0.42) .. controls (0.0,-0.18) and (0.02,-0.02) .. (0.2,-0.02)
+        .. controls (0.38,-0.02) and (0.4,-0.18) .. (0.2,-0.42) -- cycle;
+  \fill[white] (0.2,-0.17) circle (0.055);}
+\newcommand{\icoScreen}{%
+  \draw[line width=1pt,rounded corners=1.5pt] (0,-0.05) rectangle (0.44,-0.34);
+  \draw[line width=1pt] (0.15,-0.34)--(0.13,-0.42) (0.29,-0.34)--(0.31,-0.42) (0.1,-0.42)--(0.34,-0.42);}
+
+% one item in the programme-details card: {coord}{icon}{label}{value}
+% (coord is a bare calc expression, WITHOUT surrounding $...$)
+\newcommand{\dblk}[4]{%
+  \begin{scope}[shift={($#1$)},adAccent,line cap=round]#2\end{scope}
+  \node[anchor=north west, inner sep=0, text=white!60, font=\scriptsize\bfseries] at ($#1+(0.66,-0.02)$) {#3};
+  \node[anchor=north west, inner sep=0, text=white, font=\small, text width=7.0cm] at ($#1+(0.66,-0.36)$) {#4};
+}
+
+% ---- the hero banner (image if \advHeroImage is set, else gradient) --
+\newcommand{\adverthero}[1]{% #1 = hero height in cm
+  \begin{scope}
+    \clip (current page.north west) rectangle ($(current page.north east)+(0,-#1)$);
+    \ifdefempty{\advHeroImage}{%
+      % gradient placeholder with a faint globe motif
+      \shade[top color=adTeal, bottom color=adInk]
+        (current page.north west) rectangle ($(current page.north east)+(0,-#1)$);
+      \begin{scope}[shift={($(current page.north east)+(-3.2,-#1)$)}]
+        \foreach \r in {1.2,1.9,...,4.0}{\draw[white,opacity=0.08,line width=0.4pt] (0,3) circle (\r);}
+        \foreach \yy in {1.4,2.2,3.0,3.8,4.6}{\draw[white,opacity=0.08,line width=0.4pt] (-3.6,\yy) .. controls (-1.2,{\yy+0.5}) and (1.2,{\yy-0.5}) .. (3.6,\yy);}
+      \end{scope}
+    }{%
+      \node[anchor=north, inner sep=0] at (current page.north)
+        {\includegraphics[width=\paperwidth]{\advHeroImage}};
+    }%
+    % dark scrim at the bottom of the hero for title legibility
+    \fill[adInk,opacity=0.55,path fading=north]
+      ($(current page.north west)+(0,-#1)$) rectangle ($(current page.north east)+(0,{-#1+3.9})$);
+  \end{scope}
+}
+
+% =====================================================================
+\newcommand{\makeadvert}{%
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[white] (current page.south west) rectangle (current page.north east);
+  \adverthero{9.9}
+
+  % ---- branding + title over the hero -------------------------------
+  \node[anchor=north west, text=white, font=\Large\bfseries] at
+       ($(current page.north west)+(1.3,-1.15)$) {\companyName};
+  \node[anchor=west, text=adAccent, font=\bfseries\footnotesize] at
+       ($(current page.north west)+(1.35,-6.3)$)
+       {\hspace{0.02cm}\advKicker};
+  \node[anchor=north west, text=white, text width=18.5cm, font=\fontsize{27}{30}\selectfont\bfseries]
+       at ($(current page.north west)+(1.3,-6.7)$)
+       {\hyphenchar\font=-1 \advTitle};
+  \node[anchor=north west, text=white!85, text width=18cm, font=\normalsize] at
+       ($(current page.north west)+(1.35,-9.05)$) {\advSubtitle};
+
+  % ---- intro --------------------------------------------------------
+  \node[anchor=north west, text=adBody, text width=18.4cm, align=justify, font=\small] at
+       ($(current page.north west)+(1.3,-10.7)$) {\advIntro};
+
+  % ---- benefits -----------------------------------------------------
+  \node[anchor=north west, text=adInk, font=\large\bfseries] at
+       ($(current page.north west)+(1.3,-14.2)$) {\advBenefitsHead};
+  \draw[adAccent,line width=1.4pt]
+       ($(current page.north west)+(1.35,-14.75)$) -- ($(current page.north west)+(3.9,-14.75)$);
+  \node[anchor=north west, text=adBody, text width=8.7cm, font=\small] at
+       ($(current page.north west)+(1.3,-15.1)$) {\advBenefitsA};
+  \node[anchor=north west, text=adBody, text width=8.7cm, font=\small] at
+       ($(current page.north west)+(10.6,-15.1)$) {\advBenefitsB};
+
+  % ---- programme details card ---------------------------------------
+  \fill[adInk,rounded corners=6pt]
+       ($(current page.north west)+(1.2,-19.9)$) rectangle ($(current page.north east)+(-1.2,-24.4)$);
+  \node[anchor=north west, text=adAccent, font=\bfseries] at
+       ($(current page.north west)+(1.7,-20.35)$) {PROGRAMME DETAILS};
+  \dblk{(current page.north west)+(1.7,-21.35)}{\icoCal}{DATES}{\advDates}
+  \dblk{(current page.north west)+(1.7,-22.95)}{\icoClock}{TIME}{\advTime}
+  \dblk{(current page.north west)+(10.7,-21.35)}{\icoPin}{LOCATION}{\advLocation}
+  \dblk{(current page.north west)+(10.7,-22.95)}{\icoScreen}{FORMAT}{\advFormat}
+
+  % ---- call to action + footer --------------------------------------
+  \node[anchor=north west, text=adInk, text width=14cm, font=\small\itshape] at
+       ($(current page.north west)+(1.3,-25.2)$) {\advCTA};
+  \node[anchor=south east, text=adGreen, font=\footnotesize\bfseries] at
+       ($(current page.south east)+(-1.3,1.2)$) {Register: \coWebsite};
+  \draw[adAccent,line width=2pt]
+       ($(current page.south west)+(0,0.85)$) -- ($(current page.south east)+(0,0.85)$);
+  \node[anchor=south west, text=adSoft, font=\scriptsize] at
+       ($(current page.south west)+(1.3,0.35)$) {\companyName \; \textbullet\; \coWebsite \;\textbullet\; \coEmail};
+\end{tikzpicture}%
+}
+
+\endinput
