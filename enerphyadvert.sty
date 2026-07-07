@@ -80,7 +80,7 @@
 \newcommand{\dblk}[4]{%
   \begin{scope}[shift={($#1$)},adAccent,line cap=round]#2\end{scope}
   \node[anchor=north west, inner sep=0, text=white!60, font=\scriptsize\bfseries] at ($#1+(0.66,-0.02)$) {#3};
-  \node[anchor=north west, inner sep=0, text=white, font=\small, text width=7.0cm] at ($#1+(0.66,-0.36)$) {#4};
+  \node[anchor=north west, inner sep=0, text=white, font=\small, text width=5.6cm] at ($#1+(0.66,-0.36)$) {#4};
 }
 
 % ---- the top banner (photo if \advHeroImage is set, else gradient) ---
@@ -126,7 +126,7 @@
     \end{scope}
   \end{scope}
 
-  \adverthero{8.3}   % photo/gradient banner — covers the pattern up top
+  \adverthero{9.6}   % photo/gradient banner — covers the pattern up top
 
   % logo over the banner (top-left)
   \node[anchor=north west, text=white, font=\Large\bfseries] at
@@ -134,40 +134,38 @@
 
   % ---- title block (BELOW the banner) -------------------------------
   \node[anchor=north west, text=adAccent, font=\bfseries\footnotesize] at
-       ($(current page.north west)+(1.35,-8.95)$) {\advKicker};
+       ($(current page.north west)+(1.35,-10.35)$) {\advKicker};
   \node[anchor=north west, text=adInk, text width=18.5cm, font=\fontsize{26}{29}\selectfont\bfseries]
-       at ($(current page.north west)+(1.3,-9.4)$)
+       at ($(current page.north west)+(1.3,-10.8)$)
        {\hyphenchar\font=-1 \advTitle};
   \node[anchor=north west, text=adGreen, text width=18cm, font=\normalsize] at
-       ($(current page.north west)+(1.35,-11.65)$) {\advSubtitle};
+       ($(current page.north west)+(1.35,-13.05)$) {\advSubtitle};
 
   % ---- intro --------------------------------------------------------
   \node[anchor=north west, text=adBody, text width=18.4cm, align=justify, font=\small] at
-       ($(current page.north west)+(1.3,-12.75)$) {\advIntro};
+       ($(current page.north west)+(1.3,-14.2)$) {\advIntro};
 
-  % ---- benefits -----------------------------------------------------
+  % ---- benefits (LEFT column, ~60%) ---------------------------------
   \node[anchor=north west, text=adInk, font=\large\bfseries] at
-       ($(current page.north west)+(1.3,-16.1)$) {\advBenefitsHead};
+       ($(current page.north west)+(1.3,-17.5)$) {\advBenefitsHead};
   \draw[adAccent,line width=1.4pt]
-       ($(current page.north west)+(1.35,-16.65)$) -- ($(current page.north west)+(3.9,-16.65)$);
-  \node[anchor=north west, text=adBody, text width=8.7cm, font=\small] at
-       ($(current page.north west)+(1.3,-17.0)$) {\advBenefitsA};
-  \node[anchor=north west, text=adBody, text width=8.7cm, font=\small] at
-       ($(current page.north west)+(10.6,-17.0)$) {\advBenefitsB};
+       ($(current page.north west)+(1.35,-18.05)$) -- ($(current page.north west)+(3.9,-18.05)$);
+  \node[anchor=north west, text=adBody, text width=10.3cm, font=\small] at
+       ($(current page.north west)+(1.3,-18.45)$) {\advBenefitsA\advBenefitsB};
 
-  % ---- programme details card ---------------------------------------
+  % ---- programme details card (RIGHT column, fits its content) ------
   \fill[adInk,rounded corners=6pt]
-       ($(current page.north west)+(1.2,-21.2)$) rectangle ($(current page.north east)+(-1.2,-25.7)$);
-  \node[anchor=north west, text=adAccent, font=\bfseries] at
-       ($(current page.north west)+(1.7,-21.65)$) {PROGRAMME DETAILS};
-  \dblk{(current page.north west)+(1.7,-22.65)}{\icoCal}{DATES}{\advDates}
-  \dblk{(current page.north west)+(1.7,-24.25)}{\icoClock}{TIME}{\advTime}
-  \dblk{(current page.north west)+(10.7,-22.65)}{\icoPin}{LOCATION}{\advLocation}
-  \dblk{(current page.north west)+(10.7,-24.25)}{\icoScreen}{FORMAT}{\advFormat}
+       ($(current page.north west)+(12.4,-17.3)$) rectangle ($(current page.north east)+(-1.2,-24.1)$);
+  \node[anchor=north west, text=adAccent, font=\bfseries\small] at
+       ($(current page.north west)+(12.9,-17.75)$) {PROGRAMME DETAILS};
+  \dblk{(current page.north west)+(12.9,-18.65)}{\icoCal}{DATES}{\advDates}
+  \dblk{(current page.north west)+(12.9,-20.05)}{\icoClock}{TIME}{\advTime}
+  \dblk{(current page.north west)+(12.9,-21.45)}{\icoPin}{LOCATION}{\advLocation}
+  \dblk{(current page.north west)+(12.9,-22.85)}{\icoScreen}{FORMAT}{\advFormat}
 
-  % ---- call to action -----------------------------------------------
-  \node[anchor=north west, text=adInk, text width=13cm, font=\small\itshape] at
-       ($(current page.north west)+(1.3,-26.5)$) {\advCTA};
+  % ---- call to action (below both columns) --------------------------
+  \node[anchor=north west, text=adInk, text width=12.5cm, font=\small\itshape] at
+       ($(current page.north west)+(1.3,-24.9)$) {\advCTA};
 
   % ---- register QR (bottom-right, above the footer rule) ------------
   \node[anchor=south east, inner sep=0] at ($(current page.south east)+(-1.3,1.15)$)
