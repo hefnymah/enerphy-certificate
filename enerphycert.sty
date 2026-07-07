@@ -28,6 +28,8 @@
 \RequirePackage{qrcode}                 % real scannable QR
 \RequirePackage{csvsimple}              % CSV-driven batch production
 \RequirePackage{etoolbox}               % robust string comparison for single export
+\RequirePackage{siunitx}                % number formatting (thousands separators)
+\sisetup{group-separator={,}, group-minimum-digits=4, mode=text}
 \usetikzlibrary{calc}
 \pagestyle{empty}
 

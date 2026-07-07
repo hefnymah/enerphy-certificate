@@ -18,15 +18,16 @@
 \def\scopeText{Business air travel -- GHG Protocol Scope~3, Category~6}
 
 % ---- per-holder figures (defaults; overridden by the CSV per row) ---
+% Numeric defaults are 0 so \num{} always has a valid number to format.
 \def\reportperiod{--}
-\def\grossco{--}\def\saflitres{--}\def\reducedco{--}\def\residualco{--}
-\def\shorthaulkm{--}\def\shorthaulco{--}\def\longhaulkm{--}\def\longhaulco{--}
-\def\totalco{--}
+\def\grossco{0}\def\saflitres{0}\def\reducedco{0}\def\residualco{0}
+\def\shorthaulkm{0}\def\shorthaulco{0}\def\longhaulkm{0}\def\longhaulco{0}
+\def\totalco{0}
 \def\feedstock{--}\def\lifecycle{--}\def\custody{--}
 \def\verifyurl{verification link to be added}
 
 % headline figure on page 1 (uses the per-row CSV values)
-\def\categoryText{Total climate contribution: \totalco~tCO\textsubscript{2}e \quad(\saflitres~L SAF)}
+\def\categoryText{Total climate contribution: \num{\totalco}~tCO\textsubscript{2}e \quad(\num{\saflitres}~L SAF)}
 \def\validBlock{%
   Verified climate contribution for the reporting period \reportperiod.\\
   Issued on 06 July 2026 under the Enerphy climate-action programme.\\
