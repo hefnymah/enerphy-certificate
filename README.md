@@ -17,29 +17,30 @@ src/
     contours.tex             #   topographic contour rings
     plain.tex                #   no background
 courses/
-  fssc-22000-awareness/      # a training course (certificate type)
-    course.tex               #   metadata (title, scope, dates, ...)
-    content.tex              #   page-2 syllabus
-    participants.csv         #   holders: certno,name,org  (one row = one certificate)
+  iso-14064-ghg/             # ONE course = ONE folder with ALL its material
+    certificate.tex          #   certificate metadata (title, scope, dates, ...)
+    content.tex              #   certificate page-2 outline
+    participants.csv         #   holders: certno,holder,org (one row = one certificate)
+    advert.tex               #   the marketing poster content for this course
+  fssc-22000-awareness/      # (another course; advert.tex optional)
+    certificate.tex  content.tex  participants.csv
 carbon-offsets/
-  saf-flight-offset/         # a sustainability certificate type (SAF carbon offset)
-    course.tex               #   metadata (+ its own verification link)
-    content.tex              #   page-2 carbon footprint report
-    participants.csv         #   holders
+  saf-flight-offset/         # a sustainability certificate (SAF carbon offset)
+    certificate.tex  content.tex  participants.csv
 ```
 
-Each top-level folder (`courses/`, `carbon-offsets/`, …) is a family of
-certificate types; each subfolder is one type. Point `\usecourse{<path>}`
-at any of them.
+Everything about a course lives in its own folder — the **certificate** and the
+**advert** together. Point `\usecourse{<path>}` (certificate) or the advert's
+`\input` at that folder.
 
 Think of it as: `enerphycert.sty` is the class, `src/company.tex` is a config object,
-each `courses/<key>/` is a course instance, and each CSV row is a participant instance.
+each course folder is a course instance, and each CSV row is a participant instance.
 
 ## Public API (used in `main.tex`)
 
 | Command | Purpose |
 |---|---|
-| `\usecourse{<key>}` | Load `courses/<key>/course.tex` + its page-2 content |
+| `\usecourse{<dir>}` | Load `<dir>/certificate.tex` + its page-2 content |
 | `\batchcertificates{<csv>}` | **Mass production** — one certificate per CSV row, all in one PDF |
 | `\singlecertificate{<csv>}{<certno>}` | Render just the one row matching that certificate number |
 | `\setparticipant{name}{org}{certno}` + `\makecertificate` | Ad-hoc single certificate (no CSV) |
@@ -51,9 +52,10 @@ each `courses/<key>/` is a course instance, and each CSV row is a participant in
 | **Certificate** | `main.tex` | `enerphycert.sty` | the fancy 2-page certificate (batch or single) |
 | **Course advert** | `main-advert.tex` | `enerphyadvert.sty` | a one-page marketing poster for a course |
 
-Both share `src/company.tex` and `src/assets/`. Advert content lives in
-`adverts/<course-key>/advert.tex` (title, subtitle, intro, benefits, dates,
-CTA). To use a real hero photo, put it in `src/assets/` and set
+Both share `src/company.tex` and `src/assets/`. Advert content lives in the
+course's own folder, `courses/<key>/advert.tex` (title, subtitle, intro,
+benefits, dates, CTA). To use a real hero photo, drop it in that course folder
+(or `src/assets/`) and set
 `\def\advHeroImage{yourphoto.jpg}` in the advert file (otherwise a green
 gradient hero is drawn).
 
@@ -91,9 +93,10 @@ The output is always `main.pdf`; save/rename per your needs.
     (`grossco`, `saflitres`, `totalco`, `verifyurl`, …) which its `content.tex`
     prints via those `\<header>` macros — nothing is hard-coded.
   - A course can map extra columns by `\renewcommand`-ing `\applyrow`
-    (see `carbon-offsets/saf-flight-offset/course.tex`).
-- **New course:** copy a `courses/<key>/` folder, edit `course.tex` + `content.tex` + `participants.csv`,
-  and point `\usecourse{<new-key>}` at it in `main.tex`.
+    (see `carbon-offsets/saf-flight-offset/certificate.tex`).
+- **New course:** copy a `courses/<key>/` folder, edit `certificate.tex` +
+  `content.tex` + `participants.csv` (+ optional `advert.tex`), and point
+  `\usecourse{<new-dir>}` at it in `main.tex`.
 - **Company details:** edit `src/company.tex` — updates every certificate everywhere.
 - **Left-bar width / colours:** `\barwidth` and the colour palette in `enerphycert.sty`.
 
