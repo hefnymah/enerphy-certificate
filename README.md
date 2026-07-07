@@ -68,8 +68,16 @@ The output is always `main.pdf`; save/rename per your needs.
 
 ## Adding things
 
-- **New participants:** add rows to `courses/<key>/participants.csv`
-  (`certno,name,org`; wrap a field containing a comma in `{braces}`).
+- **New participants:** add rows to the folder's `participants.csv`. **Every
+  column header becomes a macro** `\<header>` for that row, so the CSV can hold
+  *all* per-certificate data — the number, the holder, and any figures. Wrap a
+  field containing a comma in `{braces}`; write a literal percent as `\%`.
+  - Shared columns used by every certificate: `certno`, `holder`, `org`.
+  - The carbon certificate CSV also carries the full footprint figures
+    (`grossco`, `saflitres`, `totalco`, `verifyurl`, …) which its `content.tex`
+    prints via those `\<header>` macros — nothing is hard-coded.
+  - A course can map extra columns by `\renewcommand`-ing `\applyrow`
+    (see `carbon-offsets/saf-flight-offset/course.tex`).
 - **New course:** copy a `courses/<key>/` folder, edit `course.tex` + `content.tex` + `participants.csv`,
   and point `\usecourse{<new-key>}` at it in `main.tex`.
 - **Company details:** edit `src/company.tex` — updates every certificate everywhere.

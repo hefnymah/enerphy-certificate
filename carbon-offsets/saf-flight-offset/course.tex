@@ -1,29 +1,47 @@
 % =====================================================================
 %  Certificate metadata — Carbon Offset via Sustainable Aviation Fuel.
-%  Loaded by \usecourse{carbon-offsets/saf-flight-offset}. Shared by all
-%  holders in participants.csv; page 2 is the carbon footprint report.
+%  Loaded by \usecourse{carbon-offsets/saf-flight-offset}.
+%
+%  Per-holder data (name, org, certificate no. AND all report figures)
+%  comes from participants.csv — every column becomes a \<header> macro
+%  each row. The \def defaults below are only used in the ad-hoc,
+%  no-CSV mode (\setparticipant + \makecertificate).
 % =====================================================================
 \coursepagetrue                     % page 2 = carbon footprint report
 \def\coursePageTitle{Carbon Footprint Report}
 
 \def\preLine{This is to certify that}
 \def\assessLine{has reduced and offset the carbon footprint of its business air travel through}
-
 \def\courseTitle{Sustainable Aviation Fuel (SAF)\\ Climate Contribution}
 \def\schemeLine{Emissions reduction achieved through the purchase and retirement of certified Sustainable Aviation Fuel, reported in line with the GHG Protocol (Scope~3) and CORSIA principles.}
-
 \def\scopeCaption{This certificate covers:}
 \def\scopeText{Business air travel -- GHG Protocol Scope~3, Category~6}
-\def\categoryText{Contribution period: 01 January 2026 -- 31 December 2026}
 
+% ---- per-holder figures (defaults; overridden by the CSV per row) ---
+\def\reportperiod{--}
+\def\grossco{--}\def\saflitres{--}\def\reducedco{--}\def\residualco{--}
+\def\shorthaulkm{--}\def\shorthaulco{--}\def\longhaulkm{--}\def\longhaulco{--}
+\def\totalco{--}
+\def\feedstock{--}\def\lifecycle{--}\def\custody{--}
+\def\verifyurl{verification link to be added}
+
+% headline figure on page 1 (uses the per-row CSV values)
+\def\categoryText{Total climate contribution: \totalco~tCO\textsubscript{2}e \quad(\saflitres~L SAF)}
 \def\validBlock{%
-  This certificate reflects a verified climate contribution for the period stated above.\\
+  Verified climate contribution for the reporting period \reportperiod.\\
   Issued on 06 July 2026 under the Enerphy climate-action programme.\\
   The supporting carbon footprint report is provided overleaf.\\
-  Contribution is additional and the SAF environmental attributes are retired.}
+  SAF environmental attributes are retired; the reduction is additional.}
 
-% ---- verification (verified via the EXTERNAL registry — add later) --
+% ---- verification (defaults; the per-row link comes from the CSV) ---
 \def\verifyHead{Verified climate contribution}
-\def\verifyURL{verification link to be added}
-\def\verifyQR{https://verify.example/pending}   % <- replace with the real link
+\def\verifyURL{\verifyurl}
+\def\verifyQR{https://verify.example/pending}
 \def\verifyLine{This contribution can be independently verified at \textbf{\verifyURL}}
+
+% Map each CSV row onto the certificate. In addition to the shared three
+% columns, wire the per-row verification link into the QR and text.
+\renewcommand{\applyrow}{%
+  \setparticipant{\holder}{\org}{\certno}%
+  \let\verifyURL\verifyurl \let\verifyQR\verifyurl%
+}

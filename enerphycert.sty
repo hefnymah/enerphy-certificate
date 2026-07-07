@@ -128,6 +128,12 @@
 \newcommand{\setparticipant}[3]{%
   \def\recipient{#1}\def\recipientAddr{#2}\def\certNo{#3}}
 
+% How each CSV row maps onto the certificate. Every CSV column becomes a
+% macro \<header> (via "head to column names"), so a course can use any of
+% them. The default handles the three shared columns; a course may
+% \renewcommand \applyrow to wire its own extra columns (see carbon course.tex).
+\providecommand{\applyrow}{\setparticipant{\holder}{\org}{\certno}}
+
 % =====================================================================
 %  RENDER ONE CERTIFICATE (page 1 + optional course page)
 % =====================================================================
@@ -234,18 +240,16 @@
 % =====================================================================
 %  MASS PRODUCTION  &  SINGLE EXPORT  (pure LaTeX, Overleaf-friendly)
 % =====================================================================
-% One certificate per row of the CSV (header: certno,name,org).
+% One certificate per CSV row. Every column header becomes a macro
+% \<header> for that row (e.g. \certno, \holder, \org, \totalco, ...).
 \newcommand{\batchcertificates}[1]{%
-  \csvreader{#1}{certno=\ccertno,name=\cname,org=\corg}{%
-    \setparticipant{\cname}{\corg}{\ccertno}\makecertificate}%
+  \csvreader[head to column names]{#1}{}{\applyrow\makecertificate}%
 }
-% Just the row whose certificate number matches #2.
+% Just the row whose certno column matches #2.
 \newcommand{\singlecertificate}[2]{%
   \def\targetcertno{#2}%
-  \csvreader{#1}{certno=\ccertno,name=\cname,org=\corg}{%
-    \ifdefstrequal{\ccertno}{\targetcertno}%
-      {\setparticipant{\cname}{\corg}{\ccertno}\makecertificate}{}%
-  }%
+  \csvreader[head to column names]{#1}{}{%
+    \ifdefstrequal{\certno}{\targetcertno}{\applyrow\makecertificate}{}}%
 }
 
 \endinput

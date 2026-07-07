@@ -1,7 +1,8 @@
 % =====================================================================
 %  Page 2 — Carbon Footprint Report (Sustainable Aviation Fuel offset).
-%  Figures below are PLACEHOLDERS — replace with the audited values.
-%  Helpers available: \coursesection{...}; colours ink / softink / accent.
+%  ALL figures below are pulled from participants.csv (one row per
+%  certificate) via the \<header> macros — nothing is hard-coded here.
+%  Helpers: \coursesection{...}; colours ink / softink / accent.
 % =====================================================================
 
 \coursesection{Reporting Summary}
@@ -11,23 +12,22 @@ purchased and retired to reduce them.
 
 \vspace{6pt}
 \begin{tabular}{@{}p{4.6cm}p{7.6cm}@{}}
-  \textbf{Reporting period}   & 01 January 2026 -- 31 December 2026 \\[2pt]
+  \textbf{Reporting period}   & \reportperiod \\[2pt]
   \textbf{Emissions scope}    & GHG Protocol Scope~3, Category~6 (business travel) \\[2pt]
-  \textbf{Gross emissions}    & 00.0 tCO\textsubscript{2}e \quad[to be completed] \\[2pt]
-  \textbf{SAF purchased}      & 0{,}000 litres \quad[to be completed] \\[2pt]
-  \textbf{Emissions reduced}  & 00.0 tCO\textsubscript{2}e \quad[to be completed] \\[2pt]
-  \textbf{Residual offset}    & 00.0 tCO\textsubscript{2}e \quad[to be completed] \\
+  \textbf{Gross emissions}    & \grossco~tCO\textsubscript{2}e \\[2pt]
+  \textbf{SAF purchased}      & \saflitres~litres \\[2pt]
+  \textbf{Emissions reduced}  & \reducedco~tCO\textsubscript{2}e \\[2pt]
+  \textbf{Residual offset}    & \residualco~tCO\textsubscript{2}e \\
 \end{tabular}
 
 \coursesection{Emissions Covered}
 \renewcommand{\arraystretch}{1.15}
-\begin{tabular}{@{}p{7.2cm}p{2.6cm}p{2.2cm}@{}}
-  \textbf{Activity} & \textbf{Distance} & \textbf{tCO\textsubscript{2}e} \\[2pt]
+\begin{tabular}{@{}p{7.2cm}p{3.0cm}p{2.2cm}@{}}
+  \textbf{Activity} & \textbf{Distance (km)} & \textbf{tCO\textsubscript{2}e} \\[2pt]
   \hline
-  Short-haul flights ($<$1{,}500~km)      & 0{,}000 km & 0.0 \\
-  Long-haul flights ($\geq$1{,}500~km)    & 0{,}000 km & 0.0 \\
-  Radiative-forcing uplift (applied)       & --         & 0.0 \\
-  \textbf{Total}                           &            & \textbf{0.0} \\
+  Short-haul flights ($<$1{,}500~km)      & \shorthaulkm & \shorthaulco \\
+  Long-haul flights ($\geq$1{,}500~km)    & \longhaulkm  & \longhaulco  \\
+  \textbf{Total}                           &              & \textbf{\totalco} \\
 \end{tabular}
 
 \coursesection{Reduction Method — Sustainable Aviation Fuel}
@@ -35,19 +35,18 @@ The contribution funds certified SAF delivered into the aviation fuel supply,
 displacing fossil jet fuel. Environmental attributes are tracked and retired on
 the holder's behalf so the reduction is claimed only once.
 \begin{itemize}\setlength\itemsep{1pt}\setlength\parskip{0pt}
-  \item Feedstock: certified waste / residue based (HEFA) \quad[to be confirmed]
-  \item Lifecycle reduction vs.\ fossil jet fuel: up to 80\% \quad[to be confirmed]
-  \item Chain-of-custody: mass-balance, book-and-claim \quad[to be confirmed]
+  \item Feedstock: \feedstock
+  \item Lifecycle reduction vs.\ fossil jet fuel: \lifecycle
+  \item Chain-of-custody: \custody
 \end{itemize}
 
 \coursesection{Methodology \& Standards}
 \begin{itemize}\setlength\itemsep{1pt}\setlength\parskip{0pt}
   \item GHG Protocol Corporate Standard \& Scope~3 (Category~6) accounting.
   \item ICAO CORSIA eligible-fuels principles for SAF emissions reduction.
-  \item Emission factors: DEFRA / ICAO \quad[cite version used].
+  \item Emission factors: DEFRA / ICAO published datasets.
 \end{itemize}
 
 \coursesection{Verification}
 The underlying SAF purchase and retirement are verified through an independent
-registry. The verification link will be published with each certificate and can
-be checked at: \textbf{\verifyURL}.
+registry. This certificate can be checked at: \textbf{\verifyURL}.
