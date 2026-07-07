@@ -107,7 +107,22 @@
 \newcommand{\makeadvert}{%
 \begin{tikzpicture}[remember picture,overlay]
   \fill[white] (current page.south west) rectangle (current page.north east);
-  \adverthero{9.9}
+
+  % ---- subtle contour background (drawn FIRST, so it sits behind the
+  %      hero image/gradient up top and behind the body text below) ----
+  \begin{scope}
+    \clip (current page.south west) rectangle (current page.north east);
+    \begin{scope}[shift={($(current page.center)+(4.2,-4.5)$)}]
+      \foreach \r [count=\i] in {1.4,2.3,...,18}{
+        \pgfmathsetmacro\op{0.09-0.0033*\r}
+        \draw[adTeal,line width=0.4pt,opacity=\op]
+          plot[domain=0:360,samples=340,smooth cycle,variable=\a]
+          ({(\r+0.5*sin(3*\a+\r*22))*cos(\a)},{(\r+0.5*sin(3*\a+\r*22))*sin(\a)});
+      }
+    \end{scope}
+  \end{scope}
+
+  \adverthero{9.9}   % hero (image or gradient) — covers the pattern up top
 
   % ---- branding + title over the hero -------------------------------
   \node[anchor=north west, text=white, font=\Large\bfseries] at
