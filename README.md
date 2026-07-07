@@ -1,41 +1,65 @@
 # Enerphy Certificate
 
-A professional training/compliance certificate rendered entirely in LaTeX, inspired by the
-classic SGS certificate layout. All graphics (watermark bird, logo mark, accreditation badge,
-and the row of flying birds) are drawn with **TikZ**, so the document is fully self-contained —
-no external image files are required.
+A scalable, package-based LaTeX system for producing Enerphy training/compliance
+certificates — a single certificate or a whole course in one batch. Pure LaTeX, so
+it runs **locally** (tectonic / pdflatex / xelatex) and on **Overleaf**.
 
-## Files
+## Project layout (OOP-style separation)
 
-- `certificate.tex` — layout/engine (rarely edited)
-- `company.tex` — **single source of truth for all company data** (offices, contacts, registration, logo, verification, signatory, legal text)
-- `course-content/` — swappable per-course syllabus files for page 2
-- `certificate.pdf` — compiled output
+```
+main.tex                     # entry point: pick course + production mode, compile
+enerphycert.sty              # the "engine" (class): all layout + the public API
+src/
+  company.tex                # company data — SINGLE SOURCE OF TRUTH
+  assets/                    # logos, stamp, signature (referenced by basename)
+courses/
+  fssc-22000-awareness/      # one folder per course
+    course.tex               #   course metadata (title, scope, dates, ...)
+    content.tex              #   page-2 syllabus
+    participants.csv         #   holders: certno,name,org  (one row = one certificate)
+```
+
+Think of it as: `enerphycert.sty` is the class, `src/company.tex` is a config object,
+each `courses/<key>/` is a course instance, and each CSV row is a participant instance.
+
+## Public API (used in `main.tex`)
+
+| Command | Purpose |
+|---|---|
+| `\usecourse{<key>}` | Load `courses/<key>/course.tex` + its page-2 content |
+| `\batchcertificates{<csv>}` | **Mass production** — one certificate per CSV row, all in one PDF |
+| `\singlecertificate{<csv>}{<certno>}` | Render just the one row matching that certificate number |
+| `\setparticipant{name}{org}{certno}` + `\makecertificate` | Ad-hoc single certificate (no CSV) |
 
 ## Build
 
-Any modern TeX engine works. The simplest is [Tectonic](https://tectonic-typesetting.github.io/):
-
 ```bash
-tectonic certificate.tex
+tectonic main.tex          # or: pdflatex main.tex / xelatex main.tex
 ```
 
-Or with a standard TeX Live install:
+On **Overleaf**: upload the whole folder, set `main.tex` as the main document, Recompile.
 
-```bash
-xelatex certificate.tex   # or pdflatex certificate.tex
-```
+### Choosing what to produce
+Edit the **PRODUCTION MODE** block in `main.tex` and uncomment one line:
 
-## Customizing
+- **(A)** `\batchcertificates{...}` — all participants (default).
+- **(B)** `\singlecertificate{...}{TRN-2026/0002}` — one person by certificate number.
+- **(C)** `\setparticipant{...}\makecertificate` — a one-off, typed in directly.
 
-- **Company details** (offices, phones, emails, registration, logo, verification portal,
-  signatory, legal fine print) — edit **`company.tex`**. Change it once and it updates
-  everywhere on every certificate.
-- **Per-certificate details** (recipient, certificate no., course title, scope, validity
-  dates) — the **`CONTENT`** block near the top of `certificate.tex`.
-- **Page-2 course content** — see `course-content/` (swap the file via `\courseContentFile`).
-- **Brand colours** — the **`COLOUR PALETTE`** block in `certificate.tex`.
+The output is always `main.pdf`; save/rename per your needs.
 
-### Using an image logo
-In `company.tex`, set `\coLogoImagetrue` and put the file name in `\coLogoImage`
-(e.g. `\def\coLogoImage{enerphy_logo.png}`). The text acronym `\coLogoMark` is used otherwise.
+## Adding things
+
+- **New participants:** add rows to `courses/<key>/participants.csv`
+  (`certno,name,org`; wrap a field containing a comma in `{braces}`).
+- **New course:** copy a `courses/<key>/` folder, edit `course.tex` + `content.tex` + `participants.csv`,
+  and point `\usecourse{<new-key>}` at it in `main.tex`.
+- **Company details:** edit `src/company.tex` — updates every certificate everywhere.
+- **Left-bar width / colours:** `\barwidth` and the colour palette in `enerphycert.sty`.
+
+## Notes
+- Each certificate is 2 pages (certificate + course outline); page numbering resets
+  per certificate ("Page 1 of 2", "Page 2 of 2"). Keep each course's `content.tex`
+  to one page so the numbering stays aligned.
+- The QR encodes a single verification URL (`\verifyQR` in `company.tex`) for all
+  certificates; the printed certificate number identifies the holder.

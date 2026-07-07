@@ -1,0 +1,30 @@
+% =====================================================================
+%  Enerphy Certificate  —  entry point
+%
+%  Compile locally (tectonic / pdflatex / xelatex main.tex) or on
+%  Overleaf (set main.tex as the main document).  Choose the course and
+%  the production mode below, then compile to a single PDF.
+% =====================================================================
+\documentclass[11pt]{article}
+
+\usepackage{enerphycert}            % the certificate engine (enerphycert.sty)
+\graphicspath{{src/assets/}}        % logos, stamp and signature live here
+
+\input{src/company.tex}             % company data — single source of truth
+\usecourse{fssc-22000-awareness}    % load courses/<key>/course.tex + content
+
+\begin{document}
+
+% ======================= PRODUCTION MODE =============================
+% Pick ONE line; comment out the rest. Then compile -> one PDF.
+
+% (A) MASS PRODUCTION — every participant in the CSV, all in one PDF.
+\batchcertificates{\coursedir/participants.csv}
+
+% (B) SINGLE certificate — pull one row from the CSV by its number.
+% \singlecertificate{\coursedir/participants.csv}{TRN-2026/0002}
+
+% (C) SINGLE certificate — typed directly, no CSV needed.
+% \setparticipant{Jane Doe}{Acme Foods Ltd}{TRN-2026/9999}\makecertificate
+
+\end{document}

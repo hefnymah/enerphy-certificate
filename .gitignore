@@ -6,11 +6,13 @@
 *.fls
 *.fdb_latexmk
 
-# Rendered previews / temp images
+# temp / test files
+main_single.*
 preview*.png
 *crop*.png
+/tmp
 
-# Reference screenshot (third-party document, not for redistribution)
+# reference screenshots (third-party, not for redistribution)
 Screenshot*.png
 
 # macOS
