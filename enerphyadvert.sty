@@ -163,15 +163,15 @@
   \dblk{(current page.north west)+(12.9,-21.45)}{\icoPin}{LOCATION}{\advLocation}
   \dblk{(current page.north west)+(12.9,-22.85)}{\icoScreen}{FORMAT}{\advFormat}
 
-  % ---- call to action (below both columns) --------------------------
-  \node[anchor=north west, text=adInk, text width=12.5cm, font=\small\itshape] at
-       ($(current page.north west)+(1.3,-24.9)$) {\advCTA};
-
-  % ---- register QR (bottom-right, above the footer rule) ------------
+  % ---- register QR + CTA (bottom band) ------------------------------
+  % bigger QR, same width as the caption above it, kept bottom-right
   \node[anchor=south east, inner sep=0] at ($(current page.south east)+(-1.3,1.15)$)
-       {\qrcode[height=2cm,level=M]{\advRegisterURL}};
-  \node[anchor=south east, text=adGreen, font=\footnotesize\bfseries] at
-       ($(current page.south east)+(-1.3,3.28)$) {Scan to register};
+       {\qrcode[height=2.8cm,level=M]{\advRegisterURL}};
+  \node[anchor=south, text=adGreen, font=\footnotesize\bfseries] at
+       ($(current page.south east)+(-2.7,4.1)$) {Scan to register};
+  % CTA to the LEFT of the QR, right-aligned (~65% of the content width)
+  \node[anchor=east, text=adInk, text width=12cm, align=right, font=\small\itshape] at
+       ($(current page.south east)+(-4.7,2.55)$) {\advCTA};
 
   % ---- footer -------------------------------------------------------
   \draw[adAccent,line width=2pt]
