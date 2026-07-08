@@ -55,12 +55,15 @@
 \providecommand{\advRegisterShow}{\advRegisterURL}             % shown as text
 \providecommand{\advHeroTag}{Measure. Reduce. Report.}        % heading line in the hero glass card
 
-% small inline check mark used for benefit bullets
+% small inline check mark (kept for reuse; benefits now use numbers)
 \newcommand{\leafmark}{\tikz[baseline=-0.5ex]{\draw[adAccent,line width=1.1pt,line cap=round]
   (0,0) -- (0.09,-0.09) -- (0.26,0.13);}}
-% a check-marked benefit line (hanging indent)
+% a numbered benefit line (hanging indent); reset the counter before the list
+\newcounter{advitem}
 \newcommand{\abullet}{\par\vspace{4pt}\noindent
-  \hangindent=0.5cm\hangafter=1 \leafmark\hspace{0.24cm}}
+  \stepcounter{advitem}%
+  \hangindent=0.55cm\hangafter=1
+  \makebox[0.55cm][l]{\bfseries\color{adAccent}\theadvitem.}}
 
 % simple TikZ icons for the details card (drawn in the current colour,
 % top-left at the origin, ~0.44cm box, growing downward)
@@ -173,10 +176,8 @@
   % ---- benefits (LEFT column, ~60%) ---------------------------------
   \node[anchor=north west, text=adInk, font=\large\bfseries] at
        ($(current page.north west)+(1.3,-17.5)$) {\advBenefitsHead};
-  \draw[adAccent,line width=1.4pt]
-       ($(current page.north west)+(1.35,-18.05)$) -- ($(current page.north west)+(3.9,-18.05)$);
   \node[anchor=north west, text=adBody, text width=10.3cm, font=\small] at
-       ($(current page.north west)+(1.3,-18.45)$) {\advBenefitsA\advBenefitsB};
+       ($(current page.north west)+(1.3,-18.45)$) {\setcounter{advitem}{0}\advBenefitsA\advBenefitsB};
 
   % ---- programme details card (RIGHT; tightened to end near benefits) -
   % card bleeds to the right page edge (zero right margin); left corners
@@ -196,8 +197,6 @@
   % ---- who should attend (full width, moved up) --------------------
   \node[anchor=north west, text=adInk, font=\large\bfseries] at
        ($(current page.north west)+(1.3,-24.4)$) {\advAudienceHead};
-  \draw[adAccent,line width=1.4pt]
-       ($(current page.north west)+(1.35,-24.95)$) -- ($(current page.north west)+(3.9,-24.95)$);
   \node[anchor=north west, text=adBody, text width=18.4cm, align=left, font=\small] at
        ($(current page.north west)+(1.3,-25.35)$) {\advAudience};
 
