@@ -159,39 +159,37 @@
   \node[anchor=north west, text=adBody, text width=10.3cm, font=\small] at
        ($(current page.north west)+(1.3,-18.45)$) {\advBenefitsA\advBenefitsB};
 
-  % ---- programme details card (RIGHT column, fits its content) ------
+  % ---- programme details card (RIGHT; tightened to end near benefits) -
   % card bleeds to the right page edge (zero right margin); left corners
   % rounded, right corners square for a clean bleed
   \fill[adInk]
-       ($(current page.north east)+(0,-17.3)$) -- ($(current page.north east)+(0,-24.55)$)
+       ($(current page.north east)+(0,-17.3)$) -- ($(current page.north east)+(0,-23.9)$)
        [rounded corners=6pt]
-       -- ($(current page.north west)+(12.4,-24.55)$) -- ($(current page.north west)+(12.4,-17.3)$)
+       -- ($(current page.north west)+(12.4,-23.9)$) -- ($(current page.north west)+(12.4,-17.3)$)
        [sharp corners] -- cycle;
   \node[anchor=north west, text=adAccent, font=\bfseries\small] at
        ($(current page.north west)+(12.9,-17.75)$) {PROGRAMME DETAILS};
-  \dblk{(current page.north west)+(12.9,-18.65)}{\icoCal}{DATES}{\advDates}
-  \dblk{(current page.north west)+(12.9,-20.05)}{\icoClock}{TIME}{\advTime}
-  \dblk{(current page.north west)+(12.9,-21.45)}{\icoPin}{LOCATION}{\advLocation}
-  \dblk{(current page.north west)+(12.9,-22.85)}{\icoScreen}{FORMAT}{\advFormat}
+  \dblk{(current page.north west)+(12.9,-18.6)}{\icoCal}{DATES}{\advDates}
+  \dblk{(current page.north west)+(12.9,-19.85)}{\icoClock}{TIME}{\advTime}
+  \dblk{(current page.north west)+(12.9,-21.1)}{\icoPin}{LOCATION}{\advLocation}
+  \dblk{(current page.north west)+(12.9,-22.35)}{\icoScreen}{FORMAT}{\advFormat}
 
-  % ---- who should attend (LEFT, fills the lower area) ---------------
+  % ---- who should attend (full width, moved up) --------------------
   \node[anchor=north west, text=adInk, font=\large\bfseries] at
-       ($(current page.north west)+(1.3,-25.15)$) {\advAudienceHead};
+       ($(current page.north west)+(1.3,-24.4)$) {\advAudienceHead};
   \draw[adAccent,line width=1.4pt]
-       ($(current page.north west)+(1.35,-25.7)$) -- ($(current page.north west)+(3.9,-25.7)$);
-  \node[anchor=north west, text=adBody, text width=10.6cm, align=left, font=\small] at
-       ($(current page.north west)+(1.3,-26.1)$) {\advAudience};
-  % closing CTA
-  \node[anchor=north west, text=adInk, text width=10.6cm, font=\small\itshape] at
-       ($(current page.north west)+(1.3,-27.45)$) {\advCTA};
+       ($(current page.north west)+(1.35,-24.95)$) -- ($(current page.north west)+(3.9,-24.95)$);
+  \node[anchor=north west, text=adBody, text width=18.4cm, align=left, font=\small] at
+       ($(current page.north west)+(1.3,-25.35)$) {\advAudience};
 
-  % ---- register block (RIGHT): caption + URL + QR -------------------
-  \node[anchor=south east, inner sep=0] at ($(current page.south east)+(-1.3,1.05)$)
-       {\qrcode[height=2.3cm,level=M]{\advRegisterURL}};
-  \node[anchor=south east, text=adGreen, font=\scriptsize] at
-       ($(current page.south east)+(-1.3,3.5)$) {\advRegisterShow};
-  \node[anchor=south east, text=adGreen, font=\footnotesize\bfseries] at
-       ($(current page.south east)+(-1.3,3.92)$) {Scan or register at};
+  % ---- registration box (full-width, light outlined) ---------------
+  \draw[adGreen, line width=0.8pt, rounded corners=5pt, fill=adLight]
+       ($(current page.north west)+(1.3,-26.6)$) rectangle ($(current page.north east)+(-1.3,-28.6)$);
+  \node[anchor=east, inner sep=0] at ($(current page.north east)+(-1.75,-27.6)$)
+       {\qrcode[height=1.65cm,level=M]{\advRegisterURL}};
+  \node[anchor=west, text width=13.6cm, text=adInk, font=\small] at
+       ($(current page.north west)+(1.85,-27.6)$)
+       {\itshape\advCTA\par\vspace{3pt}\upshape\bfseries\color{adGreen} Register: \advRegisterShow};
 
   % ---- footer -------------------------------------------------------
   \draw[adAccent,line width=2pt]
