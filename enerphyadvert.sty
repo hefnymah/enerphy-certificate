@@ -48,8 +48,11 @@
 \providecommand{\advLocation}{--}
 \providecommand{\advFormat}{--}
 \providecommand{\advCTA}{Seats are limited.}
+\providecommand{\advAudienceHead}{Who should attend?}
+\providecommand{\advAudience}{}
 \providecommand{\advHeroImage}{}            % empty = drawn gradient hero
 \providecommand{\advRegisterURL}{https://enerphy-suisse.ch/}   % encoded in the QR
+\providecommand{\advRegisterShow}{\advRegisterURL}             % shown as text
 
 % small inline check mark used for benefit bullets
 \newcommand{\leafmark}{\tikz[baseline=-0.5ex]{\draw[adAccent,line width=1.1pt,line cap=round]
@@ -171,15 +174,24 @@
   \dblk{(current page.north west)+(12.9,-21.45)}{\icoPin}{LOCATION}{\advLocation}
   \dblk{(current page.north west)+(12.9,-22.85)}{\icoScreen}{FORMAT}{\advFormat}
 
-  % ---- register QR + CTA (bottom band) ------------------------------
-  % bigger QR, same width as the caption above it, kept bottom-right
-  \node[anchor=south east, inner sep=0] at ($(current page.south east)+(-1.3,1.15)$)
-       {\qrcode[height=2.8cm,level=M]{\advRegisterURL}};
-  \node[anchor=south, text=adGreen, font=\footnotesize\bfseries] at
-       ($(current page.south east)+(-2.7,4.1)$) {Scan to register};
-  % CTA to the LEFT of the QR, right-aligned (~65% of the content width)
-  \node[anchor=east, text=adInk, text width=12cm, align=right, font=\small\itshape] at
-       ($(current page.south east)+(-4.7,2.55)$) {\advCTA};
+  % ---- who should attend (LEFT, fills the lower area) ---------------
+  \node[anchor=north west, text=adInk, font=\large\bfseries] at
+       ($(current page.north west)+(1.3,-25.15)$) {\advAudienceHead};
+  \draw[adAccent,line width=1.4pt]
+       ($(current page.north west)+(1.35,-25.7)$) -- ($(current page.north west)+(3.9,-25.7)$);
+  \node[anchor=north west, text=adBody, text width=10.6cm, align=left, font=\small] at
+       ($(current page.north west)+(1.3,-26.1)$) {\advAudience};
+  % closing CTA
+  \node[anchor=north west, text=adInk, text width=10.6cm, font=\small\itshape] at
+       ($(current page.north west)+(1.3,-27.45)$) {\advCTA};
+
+  % ---- register block (RIGHT): caption + URL + QR -------------------
+  \node[anchor=south east, inner sep=0] at ($(current page.south east)+(-1.3,1.05)$)
+       {\qrcode[height=2.3cm,level=M]{\advRegisterURL}};
+  \node[anchor=south east, text=adGreen, font=\scriptsize] at
+       ($(current page.south east)+(-1.3,3.5)$) {\advRegisterShow};
+  \node[anchor=south east, text=adGreen, font=\footnotesize\bfseries] at
+       ($(current page.south east)+(-1.3,3.92)$) {Scan or register at};
 
   % ---- footer -------------------------------------------------------
   \draw[adAccent,line width=2pt]
