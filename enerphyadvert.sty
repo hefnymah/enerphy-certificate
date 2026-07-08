@@ -53,7 +53,7 @@
 \providecommand{\advHeroImage}{}            % empty = drawn gradient hero
 \providecommand{\advRegisterURL}{https://enerphy-suisse.ch/}   % encoded in the QR
 \providecommand{\advRegisterShow}{\advRegisterURL}             % shown as text
-\providecommand{\advHeroTag}{Energy \& Climate}               % heading line in the hero glass card
+\providecommand{\advHeroTag}{Measure. Reduce. Report.}        % heading line in the hero glass card
 
 % small inline check mark used for benefit bullets
 \newcommand{\leafmark}{\tikz[baseline=-0.5ex]{\draw[adAccent,line width=1.1pt,line cap=round]
@@ -139,23 +139,22 @@
   %  A translucent dark-glass panel (glassmorphism). LaTeX has no live
   %  blur, so the photo shows through darkened rather than frosted; the
   %  tint + light border + rounded corners still read as glass.
+  %  (vertically centred on the left of the 9.6cm banner)
   \begin{scope}
     % card body (dark tint) + faint milky frost layer
     \fill[adInk,opacity=0.42,rounded corners=9pt]
-      ($(current page.north west)+(1.15,-1.05)$) rectangle ($(current page.north west)+(8.8,-3.55)$);
+      ($(current page.north west)+(1.15,-3.65)$) rectangle ($(current page.north west)+(8.8,-5.95)$);
     \fill[white,opacity=0.05,rounded corners=9pt]
-      ($(current page.north west)+(1.15,-1.05)$) rectangle ($(current page.north west)+(8.8,-3.55)$);
+      ($(current page.north west)+(1.15,-3.65)$) rectangle ($(current page.north west)+(8.8,-5.95)$);
     % thin glass border
     \draw[white,opacity=0.34,line width=0.6pt,rounded corners=9pt]
-      ($(current page.north west)+(1.15,-1.05)$) rectangle ($(current page.north west)+(8.8,-3.55)$);
+      ($(current page.north west)+(1.15,-3.65)$) rectangle ($(current page.north west)+(8.8,-5.95)$);
     % company name
     \node[anchor=north west, text=white, font=\Large\bfseries, inner sep=0] at
-      ($(current page.north west)+(1.62,-1.62)$) {\companyName};
-    % accent divider
-    \fill[adAccent] ($(current page.north west)+(1.64,-2.54)$) rectangle ($(current page.north west)+(2.42,-2.48)$);
+      ($(current page.north west)+(1.62,-4.18)$) {\companyName};
     % heading / tagline line
     \node[anchor=north west, text=white, font=\footnotesize, inner sep=0] at
-      ($(current page.north west)+(1.62,-2.76)$) {\advHeroTag};
+      ($(current page.north west)+(1.62,-5.12)$) {\advHeroTag};
   \end{scope}
 
   % ---- title block (BELOW the banner) -------------------------------
